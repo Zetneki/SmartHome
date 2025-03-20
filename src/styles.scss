@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+//@use "@angular/material" as mat;
+//@use "./app/styles/theme-colors" as *;
+@import "./app/styles/theme.css"; //html {
+//  @include mat.theme(
+//    (
+//      color: (
+//        theme-type: light,
+//        primary: $primary-palette,
+//        tertiary: $tertiary-palette,
+//        //neutral: $neutral-palette,
+//      ),
+//      typography: Roboto,
+//      density: 0,
+//    )
+//  );
+//} /* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background-color: var(--mat-sys-background);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}

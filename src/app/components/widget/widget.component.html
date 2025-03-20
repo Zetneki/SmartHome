@@ -1,0 +1,15 @@
+<div class="container">
+  <h3>{{ data().label }}</h3>
+  <button
+    mat-icon-button
+    class="settings-button"
+    (click)="showOptions.set(true)"
+  >
+    <mat-icon>settings</mat-icon>
+  </button>
+  <ng-container [ngComponentOutlet]="data().content" />
+
+  @if (showOptions()) {
+  <app-widget-options [(showOptions)]="showOptions" [data]="data()" />
+  }
+</div>
