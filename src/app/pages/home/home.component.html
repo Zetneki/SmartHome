@@ -6,7 +6,7 @@
       Add Widget
     </button>
     <mat-menu #widgetMenu="matMenu">
-      @for (widget of store.widgetsToAdd(); track widget.id) {
+      @for (widget of store.widgetsToAdd$ | async; track widget.id) {
       <button mat-menu-item (click)="store.addWidget(widget)">
         {{ widget.label }}
       </button>
@@ -16,8 +16,25 @@
     </mat-menu>
   </div>
 
+  <mat-form-field class="example-form-field">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" [(ngModel)]="value" />
+  </mat-form-field>
+  {{ value }}
+  <mat-form-field>
+    <mat-label>Widget type</mat-label>
+    <mat-select [(ngModel)]="selectedWidget">
+      @for (widget of widgets; track widget.value) {
+      <mat-option [value]="widget.value">{{ widget.viewValue }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  {{ selectedWidget }}
+
+  <button mat-menu-item (click)="newWidget()">Mentés</button>
+  {{ id_value }}
   <div #dashboard class="dashboard-widgets">
-    @for (w of store.addedWidgets(); track w.id) {
+    @for (w of store.addedWidgets | async; track w.id) {
     <app-widget [data]="w"></app-widget>
     }
   </div>
