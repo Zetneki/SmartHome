@@ -1,6 +1,25 @@
 <mat-toolbar class="nav">
-  <span>Smarthome</span>
-  <a routerLink="/home" mat-button>Home</a>
-  <a routerLink="/new-device" mat-button>Dashboard</a>
-  <a routerLink="#" mat-button>About</a>
+  <span>SmartHome</span>
+  <div class="nav-links">
+    <a routerLink="/home" mat-button class="nav-link">Home</a>
+    <a routerLink="/new-device" mat-button class="nav-link">Dashboard</a>
+    <a routerLink="/about" mat-button class="nav-link">About</a>
+
+    <mat-drawer-container class="sidebar-container">
+      <mat-drawer #drawer class="sidebar" mode="over" [opened]="isOpen">
+        <div class="sidebar-close">
+          <button mat-raised-button (click)="toggleSidebar()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <a routerLink="/home" mat-button>Home</a>
+        <a routerLink="/new-device" mat-button>Dashboard</a>
+        <a routerLink="/about" mat-button>About</a>
+      </mat-drawer>
+
+      <button mat-button (click)="toggleSidebar()" class="sidebar-content">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-drawer-container>
+  </div>
 </mat-toolbar>

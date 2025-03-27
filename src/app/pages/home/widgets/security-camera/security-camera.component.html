@@ -1,0 +1,6 @@
+<div class="widget security-widget" [class.active]="isOn">
+  <button (click)="toggleCamera()" class="camera-button">
+    <mat-icon>{{ isOn ? "videocam" : "videocam_off" }}</mat-icon>
+  </button>
+  <p>{{ isOn ? "Recording..." : "Offline" }}</p>
+</div>

@@ -1,9 +1,16 @@
-<div class="container">
-  <h3>{{ data().label }}</h3>
+<div
+  class="container"
+  [style.background-color]="
+    data().backgroundColor ?? 'var(--mat-sys-background)'
+  "
+  [style.color]="data().color ?? 'inherit'"
+>
+  <h4>{{ data().label }}</h4>
   <button
     mat-icon-button
     class="settings-button"
     (click)="showOptions.set(true)"
+    [style.--mdc-icon-button-icon-color]="data().color ?? 'inherit'"
   >
     <mat-icon>settings</mat-icon>
   </button>

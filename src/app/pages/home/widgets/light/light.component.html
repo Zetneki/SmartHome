@@ -1,0 +1,8 @@
+<div class="widget light-widget">
+  <button (click)="toggleLight()" class="light-button">
+    <mat-icon>{{ isOn ? "lightbulb" : "lightbulb_outline" }}</mat-icon>
+  </button>
+  <p>Brightness: {{ brightness }}%</p>
+
+  <!--<input type="range" min="0" max="100"/>-->
+</div>

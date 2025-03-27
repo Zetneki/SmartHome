@@ -3,12 +3,13 @@
 </button>
 
 <div>
-  Width
+  <p class="width">Width</p>
 
   <mat-button-toggle-group
     hideSingleSelectionIndicator="true"
     [value]="data().columns ?? 1"
     (change)="store.updateWidget(data().id, { columns: +$event.value })"
+    class="width"
   >
     <mat-button-toggle [value]="1">1</mat-button-toggle>
     <mat-button-toggle [value]="2">2</mat-button-toggle>
@@ -17,12 +18,13 @@
   </mat-button-toggle-group>
 </div>
 <div>
-  Height
+  <p class="height">Height</p>
 
   <mat-button-toggle-group
     hideSingleSelectionIndicator="true"
     [value]="data().rows ?? 1"
     (change)="store.updateWidget(data().id, { rows: +$event.value })"
+    class="height"
   >
     <mat-button-toggle [value]="1">1</mat-button-toggle>
     <mat-button-toggle [value]="2">2</mat-button-toggle>
@@ -45,4 +47,12 @@
   (click)="store.moveWidgetToLeft(data().id)"
 >
   <mat-icon>chevron_left</mat-icon>
+</button>
+
+<button
+  mat-icon-button
+  class="remove-button"
+  (click)="store.deleteWidget(data().id)"
+>
+  <mat-icon>delete</mat-icon>
 </button>

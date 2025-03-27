@@ -1,6 +1,6 @@
 :host {
   position: absolute;
-  z-index: 2;
+  //z-index: 10;
   background: var(--mat-sys-background);
   color: white;
   top: 0;
@@ -22,6 +22,11 @@
     align-items: center;
     margin-bottom: 8px;
   }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .close-button {
@@ -42,4 +47,18 @@
   top: 50%;
   transform: translateY(-50%);
   left: -5px;
+}
+
+.remove-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #cc0000;
+}
+
+@media screen and (max-width: 660px) {
+  .width,
+  .height {
+    display: none;
+  }
 }
