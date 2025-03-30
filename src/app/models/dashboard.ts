@@ -5,8 +5,8 @@ export interface Widget {
   label: string;
   content: Type<unknown>;
   contentName?: string;
-  rows?: number;
-  columns?: number;
-  backgroundColor?: string;
-  color?: string;
+  rows: number;
+  columns: number;
+  backgroundColor: string;
+  color: string;
 }

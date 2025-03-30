@@ -1,40 +1,20 @@
 <div class="home">
   <div class="add">
     <h2>Channel Dashboard</h2>
-    <button mat-flat-button [mat-menu-trigger-for]="widgetMenu">
-      <mat-icon>add_circle</mat-icon>
-      Add Widget
-    </button>
-    <mat-menu #widgetMenu="matMenu">
-      @for (widget of store.widgetsToAdd$ | async; track widget.id) {
-      <button mat-menu-item (click)="store.addWidget(widget)">
-        {{ widget.label }}
+    <div class="buttons">
+      <button mat-flat-button [mat-menu-trigger-for]="widgetMenu">
+        <mat-icon>add_circle</mat-icon>
+        Add Widget
       </button>
-      } @empty {
-      <button mat-menu-item>No widgets to add</button>
-      }
-    </mat-menu>
+      <mat-menu #widgetMenu="matMenu"> </mat-menu>
+      <button mat-raised-button (click)="openDialog()" class="add-widgets">
+        Make a new widget
+      </button>
+    </div>
   </div>
 
-  <mat-form-field class="example-form-field">
-    <mat-label>Name</mat-label>
-    <input matInput type="text" [(ngModel)]="value" />
-  </mat-form-field>
-  {{ value }}
-  <mat-form-field>
-    <mat-label>Widget type</mat-label>
-    <mat-select [(ngModel)]="selectedWidget">
-      @for (widget of widgets; track widget.value) {
-      <mat-option [value]="widget.value">{{ widget.viewValue }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  {{ selectedWidget }}
-
-  <button mat-menu-item (click)="newWidget()">Mentés</button>
-  {{ id_value }}
   <div #dashboard class="dashboard-widgets">
-    @for (w of store.addedWidgets | async; track w.id) {
+    @for (w of this.store.items$ | async; track w.id) {
     <app-widget [data]="w"></app-widget>
     }
   </div>

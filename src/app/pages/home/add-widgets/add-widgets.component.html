@@ -1,1 +1,21 @@
-<p>add-widgets works!</p>
+<div class="add-widgets">
+  <p class="title">New widget</p>
+  <mat-form-field class="example-form-field">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" [(ngModel)]="value" />
+  </mat-form-field>
+  <!--{{ value }}-->
+  <mat-form-field>
+    <mat-label>Widget type</mat-label>
+    <mat-select [(ngModel)]="selectedWidget">
+      @for (widget of widgets; track widget) {
+      <mat-option [value]="widget.value">{{ widget.viewValue }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <!--{{ selectedWidget }}-->
+
+  <button mat-button (click)="newWidget()">Save</button>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <!--{{ id_value }}-->
+</div>

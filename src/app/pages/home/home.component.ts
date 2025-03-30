@@ -10,11 +10,14 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Widget } from '../../models/dashboard';
 import { LightComponent } from './widgets/light/light.component';
 import { TemperatureComponent } from './widgets/temperature/temperature.component';
 import { SecurityCameraComponent } from './widgets/security-camera/security-camera.component';
 import { SubscribersComponent } from './widgets/subscribers/subscribers.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AddWidgetsComponent } from './add-widgets/add-widgets.component';
+import { Observable } from 'rxjs';
+import { Widget } from '../../models/dashboard';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +31,7 @@ import { SubscribersComponent } from './widgets/subscribers/subscribers.componen
     FormsModule,
     CommonModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   providers: [DashboardService],
   templateUrl: './home.component.html',
@@ -38,32 +42,35 @@ export class HomeComponent {
 
   dashboard = viewChild.required<ElementRef>('dashboard');
 
-  ngOnInit() {
-    wrapGrid(this.dashboard().nativeElement, { duration: 300 });
-  }
-
   id_value = Date.now();
   value = '';
   selectedWidget: Type<unknown> = LightComponent;
 
-  widgets = [
-    { value: LightComponent, viewValue: 'Light' },
-    { value: TemperatureComponent, viewValue: 'Temperature' },
-    { value: SecurityCameraComponent, viewValue: 'SecurityCamera' },
-    { value: SubscribersComponent, viewValue: 'Subscribers' },
-  ];
+  readonly dialog = inject(MatDialog);
 
-  newWidget() {
-    this.id_value = Date.now();
+  ngOnInit() {
+    wrapGrid(this.dashboard().nativeElement, { duration: 300 });
+  }
 
-    this.store.addWidget({
-      id: this.id_value,
-      label: this.value,
-      content: this.selectedWidget,
-      rows: 1,
-      columns: 1,
-      backgroundColor: 'var(--mat-sys-primary)',
-      color: 'white',
+  openDialog() {
+    const dialogRef = this.dialog.open(AddWidgetsComponent);
+    setTimeout(() => {
+      const appRoot = document.querySelector('app-root');
+      if (appRoot) {
+        appRoot.setAttribute('inert', '');
+        appRoot.removeAttribute('aria-hidden');
+      }
+    }, 100);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      if (result) {
+        this.store.addWidget(result);
+      }
+      const appRoot = document.querySelector('app-root');
+      if (appRoot) {
+        appRoot.removeAttribute('inert');
+      }
     });
   }
 }
