@@ -1,12 +1,11 @@
+import { Room } from './room.model';
+
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   role: 'admin' | 'user';
-  configuration: {
-    smartLight: boolean;
-    smartPlug: boolean;
-    solarPanel: boolean;
-    [key: string]: boolean; // Bármilyen további eszköz engedélyezése
-  };
+  password: string;
+  passwordConfirm: string;
+  rooms: Room[];
 }

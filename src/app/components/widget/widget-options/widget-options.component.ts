@@ -1,9 +1,17 @@
-import { Component, inject, input, model } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  input,
+  model,
+  Output,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { DashboardService } from '../../../services/dashboard.service';
-import { Widget } from '../../../models/dashboard';
+import { Widget } from '../../../models/widget';
 
 @Component({
   selector: 'app-widget-options',
@@ -12,8 +20,22 @@ import { Widget } from '../../../models/dashboard';
   styleUrl: './widget-options.component.scss',
 })
 export class WidgetOptionsComponent {
-  data = input.required<Widget>();
-  showOptions = model<boolean>(false);
+  @Input({ required: true }) data!: Widget;
+  @Input() showOptions = false;
+  @Output() showOptionsChange = new EventEmitter<boolean>();
+  @Output() dataChange = new EventEmitter<Partial<Widget>>();
+  @Output() moveRight = new EventEmitter<void>();
+  @Output() moveLeft = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<void>();
 
   store = inject(DashboardService);
+
+  updateData(update: Partial<Widget>) {
+    this.dataChange.emit(update);
+  }
+
+  close() {
+    this.showOptions = false;
+    this.showOptionsChange.emit(this.showOptions);
+  }
 }

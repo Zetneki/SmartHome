@@ -1,4 +1,4 @@
-<button mat-icon-button class="close-button" (click)="showOptions.set(false)">
+<button mat-icon-button class="close-button" (click)="close()">
   <mat-icon>close</mat-icon>
 </button>
 
@@ -7,8 +7,8 @@
 
   <mat-button-toggle-group
     hideSingleSelectionIndicator="true"
-    [value]="data().columns ?? 1"
-    (change)="store.updateWidget(data().id, { columns: +$event.value })"
+    [value]="data.columns"
+    (change)="updateData({ columns: +$event.value })"
     class="width"
   >
     <mat-button-toggle [value]="1">1</mat-button-toggle>
@@ -22,8 +22,8 @@
 
   <mat-button-toggle-group
     hideSingleSelectionIndicator="true"
-    [value]="data().rows ?? 1"
-    (change)="store.updateWidget(data().id, { rows: +$event.value })"
+    [value]="data.rows"
+    (change)="updateData({ rows: +$event.value })"
     class="height"
   >
     <mat-button-toggle [value]="1">1</mat-button-toggle>
@@ -33,26 +33,14 @@
   </mat-button-toggle-group>
 </div>
 
-<button
-  mat-icon-button
-  class="forward-button"
-  (click)="store.moveWidgetToRight(data().id)"
->
+<button mat-icon-button class="forward-button" (click)="moveRight.emit()">
   <mat-icon>chevron_right</mat-icon>
 </button>
 
-<button
-  mat-icon-button
-  class="backward-button"
-  (click)="store.moveWidgetToLeft(data().id)"
->
+<button mat-icon-button class="backward-button" (click)="moveLeft.emit()">
   <mat-icon>chevron_left</mat-icon>
 </button>
 
-<button
-  mat-icon-button
-  class="remove-button"
-  (click)="store.deleteWidget(data().id)"
->
+<button mat-icon-button class="remove-button" (click)="delete.emit()">
   <mat-icon>delete</mat-icon>
 </button>

@@ -1,8 +1,14 @@
-<div class="add-widgets">
+<div class="add-widgets" autofocus>
   <p class="title">New widget</p>
   <mat-form-field class="example-form-field">
     <mat-label>Name</mat-label>
-    <input matInput type="text" [(ngModel)]="value" />
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="value"
+      autofocus
+      placeholder="Widget neve"
+    />
   </mat-form-field>
   <!--{{ value }}-->
   <mat-form-field>

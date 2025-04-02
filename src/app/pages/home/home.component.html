@@ -1,16 +1,10 @@
 <div class="home">
   <div class="add">
     <h2>Channel Dashboard</h2>
-    <div class="buttons">
-      <button mat-flat-button [mat-menu-trigger-for]="widgetMenu">
-        <mat-icon>add_circle</mat-icon>
-        Add Widget
-      </button>
-      <mat-menu #widgetMenu="matMenu"> </mat-menu>
-      <button mat-raised-button (click)="openDialog()" class="add-widgets">
-        Make a new widget
-      </button>
-    </div>
+
+    <button mat-raised-button (click)="openDialog()" class="add-widgets">
+      Make a new widget
+    </button>
   </div>
 
   <div #dashboard class="dashboard-widgets">

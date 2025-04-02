@@ -1,5 +1,7 @@
+import { Widget } from './widget';
+
 export interface Room {
-  id: string;
+  id: number;
   name: string;
-  devices: string[]; // Az eszközök azonosítói
+  devices: Widget[]; // Az eszközök azonosítói
 }

@@ -5,13 +5,15 @@ import {
   HostListener,
   OnInit,
   inject,
+  model,
 } from '@angular/core';
-import { Widget } from '../../models/dashboard';
+import { Widget } from '../../models/widget';
 import { NgComponentOutlet } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { WidgetOptionsComponent } from './widget-options/widget-options.component';
 import { DashboardService } from '../../services/dashboard.service';
+import { TruncatePipe } from '../../pipes/truncate.pipe';
 
 @Component({
   selector: 'app-widget',
@@ -20,6 +22,7 @@ import { DashboardService } from '../../services/dashboard.service';
     MatButtonModule,
     MatIcon,
     WidgetOptionsComponent,
+    TruncatePipe,
   ],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.scss',
@@ -30,7 +33,7 @@ import { DashboardService } from '../../services/dashboard.service';
 })
 export class WidgetComponent implements OnInit {
   data = input.required<Widget>();
-  showOptions = signal(false);
+  showOptions = model(false);
 
   store = inject(DashboardService);
 
@@ -52,5 +55,9 @@ export class WidgetComponent implements OnInit {
       this.store.updateWidget(this.data().id, { columns: 1 });
       this.store.updateWidget(this.data().id, { rows: 1 });
     }
+  }
+
+  onDataChange(update: Partial<Widget>) {
+    this.store.updateWidget(this.data().id, update);
   }
 }

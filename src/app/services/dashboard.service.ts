@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Widget } from '../models/dashboard';
+import { Widget } from '../models/widget';
 import { LightComponent } from '../pages/home/widgets/light/light.component';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { WidgetComponent } from '../components/widget/widget.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
+  ID = Date.now();
+
   addedWidgets = new BehaviorSubject<Widget[]>([
     {
-      id: 1,
+      id: this.ID,
       label: 'Light',
       content: LightComponent,
       rows: 1,
       columns: 1,
       backgroundColor: 'var(--mat-sys-primary)',
       color: 'white',
+      contentData: {
+        widgetId: this.ID,
+        name: 'Light',
+        switch: true,
+      },
     },
   ]);
 

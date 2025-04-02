@@ -10,14 +10,13 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-
-  .buttons {
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: column;
-  }
 }
 
 .home {
   padding: 0.625rem;
+}
+
+.add-widgets:focus {
+  outline: none; /* Eltünteti a default keretet */
+  box-shadow: none; /* Opcionális, ha más árnyék van */
 }

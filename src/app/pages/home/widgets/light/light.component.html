@@ -1,8 +1,17 @@
-<div class="widget light-widget">
-  <button (click)="toggleLight()" class="light-button">
-    <mat-icon>{{ isOn ? "lightbulb" : "lightbulb_outline" }}</mat-icon>
+<!-- light.component.html -->
+<div class="widget light-widget" [ngClass]="{ 'active-widget': isOn }">
+  <button
+    (click)="toggleLight()"
+    [ngClass]="{
+      'light-button': true,
+      'light-button--active': isOn
+    }"
+  >
+    <mat-icon [ngStyle]="{ color: isOn ? '#FFD700' : '#fff' }">
+      {{ isOn ? "lightbulb" : "lightbulb_outline" }}
+    </mat-icon>
   </button>
-  <p>Brightness: {{ brightness }}%</p>
-
-  <!--<input type="range" min="0" max="100"/>-->
+  <p [ngClass]="{ 'low-brightness': brightness <= 20 }">
+    Brightness: {{ brightness }}%
+  </p>
 </div>

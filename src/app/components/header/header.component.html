@@ -1,25 +1,29 @@
 <mat-toolbar class="nav">
   <span>SmartHome</span>
   <div class="nav-links">
+    <!--<a routerLink="/login" mat-button class="nav-link">Login</a>
+    <a routerLink="/registration" mat-button class="nav-link">Registration</a>-->
     <a routerLink="/home" mat-button class="nav-link">Home</a>
-    <a routerLink="/new-device" mat-button class="nav-link">Dashboard</a>
     <a routerLink="/about" mat-button class="nav-link">About</a>
+    <a routerLink="/profile" mat-button class="nav-link">Profile</a>
 
-    <mat-drawer-container class="sidebar-container">
-      <mat-drawer #drawer class="sidebar" mode="over" [opened]="isOpen">
+    <mat-sidenav-container class="sidebar-container">
+      <mat-sidenav #drawer class="sidebar" mode="over" [opened]="isOpen">
         <div class="sidebar-close">
           <button mat-raised-button (click)="toggleSidebar()">
             <mat-icon>close</mat-icon>
           </button>
         </div>
-        <a routerLink="/home" mat-button>Home</a>
-        <a routerLink="/new-device" mat-button>Dashboard</a>
-        <a routerLink="/about" mat-button>About</a>
-      </mat-drawer>
+        <a routerLink="/home" mat-button (click)="toggleSidebar()">Home</a>
+        <a routerLink="/about" mat-button (click)="toggleSidebar()">About</a>
+        <a routerLink="/profile" mat-button (click)="toggleSidebar()"
+          >Profile</a
+        >
+      </mat-sidenav>
 
       <button mat-button (click)="toggleSidebar()" class="sidebar-content">
         <mat-icon>menu</mat-icon>
       </button>
-    </mat-drawer-container>
+    </mat-sidenav-container>
   </div>
 </mat-toolbar>

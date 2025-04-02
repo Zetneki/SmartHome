@@ -1,0 +1,34 @@
+.profile {
+  margin: auto;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  button {
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .profile {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .profile {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile {
+    margin-top: 0;
+    width: 100%;
+    box-shadow: none;
+  }
+}

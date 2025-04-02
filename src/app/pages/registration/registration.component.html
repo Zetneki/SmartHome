@@ -1,0 +1,83 @@
+<div class="registration">
+  <h1>Registration</h1>
+  <p>This is the registration page</p>
+  <p>You can register here</p>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="data">
+    <mat-form-field class="inputs">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" required />
+      @if (getControl('email')?.hasError('required')) {
+      <mat-error>Email is required.</mat-error>
+      } @if (getControl('email')?.hasError('email')) {
+      <mat-error>Invalid email format.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="inputs">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" required />
+      @if (getControl('name')?.hasError('required')) {
+      <mat-error>Name is required.</mat-error>
+      } @if (getControl('name')?.hasError('minlength')) {
+      <mat-error>Name must be at least 6 characters long.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="inputs">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" required />
+      @if (getControl('password')?.hasError('required')) {
+      <mat-error>Password is required.</mat-error>
+      } @if (getControl('password')?.hasError('minlength')) {
+      <mat-error>Password must be at least 8 characters long.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="inputs">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="confirmPassword"
+        required
+      />
+      @if (getControl('confirmPassword')?.hasError('required')) {
+      <mat-error>Confirm Password is required.</mat-error>
+      }
+    </mat-form-field>
+
+    @if (!isLoading) {
+    <div class="buttons">
+      <button mat-flat-button type="submit">Register</button>
+      <button mat-flat-button [routerLink]="['/login']">
+        Already have an account?
+      </button>
+    </div>
+    }@else{
+    <div class="loading-container">
+      <h2>Registration in progress</h2>
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Please wait...</p>
+    </div>
+    }
+  </form>
+</div>
+
+<div class="error">
+  @if (signupError) {
+  <div class="error-message">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <span>{{ signupError }}</span>
+    <button mat-flat-button (click)="clearError()" class="close-button">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+  }
+</div>
+
+<div>
+  @for (u of this.store.users$ | async; track u.id) {
+  <p>{{ u.name }}</p>
+  }
+</div>

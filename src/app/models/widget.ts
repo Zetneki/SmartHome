@@ -1,10 +1,11 @@
 import { Type } from '@angular/core';
+import { WidgetContent } from './widget-content';
 
 export interface Widget {
   id: number;
   label: string;
   content: Type<unknown>;
-  contentName?: string;
+  contentData: WidgetContent;
   rows: number;
   columns: number;
   backgroundColor: string;

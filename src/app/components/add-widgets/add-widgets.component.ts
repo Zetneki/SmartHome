@@ -11,12 +11,12 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { LightComponent } from '../widgets/light/light.component';
-import { TemperatureComponent } from '../widgets/temperature/temperature.component';
-import { SecurityCameraComponent } from '../widgets/security-camera/security-camera.component';
-import { SubscribersComponent } from '../widgets/subscribers/subscribers.component';
-import { DashboardService } from '../../../services/dashboard.service';
-import { Widget } from '../../../models/dashboard';
+import { LightComponent } from '../../pages/home/widgets/light/light.component';
+import { TemperatureComponent } from '../../pages/home/widgets/temperature/temperature.component';
+import { SecurityCameraComponent } from '../../pages/home/widgets/security-camera/security-camera.component';
+import { SubscribersComponent } from '../../pages/home/widgets/subscribers/subscribers.component';
+import { DashboardService } from '../../services/dashboard.service';
+import { Widget } from '../../models/widget';
 
 @Component({
   selector: 'app-add-widgets',
@@ -54,6 +54,8 @@ export class AddWidgetsComponent {
     { value: SecurityCameraComponent, viewValue: 'SecurityCamera' },
     { value: SubscribersComponent, viewValue: 'Subscribers' },
   ];
+
+  rooms = [{ value: LightComponent, viewValue: 'Light' }];
 
   newWidget() {
     this.id_value = Date.now();
