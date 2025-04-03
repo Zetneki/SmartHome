@@ -19,9 +19,9 @@
     [(showOptions)]="showOptions"
     [data]="data()"
     (dataChange)="onDataChange($event)"
-    (moveRight)="store.moveWidgetToRight(data().id)"
-    (moveLeft)="store.moveWidgetToLeft(data().id)"
-    (delete)="store.deleteWidget(data().id)"
+    (moveRight)="store.moveWidgetRight(data().roomId, data().id)"
+    (moveLeft)="store.moveWidgetLeft(data().roomId, data().id)"
+    (delete)="store.removeWidgetFromRoom(data().roomId, data().id)"
   />
   }
 </div>

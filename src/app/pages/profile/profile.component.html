@@ -1,20 +1,25 @@
 <div class="profile">
   <h1>Profile</h1>
-  <p>This is the profile page</p>
-  @if (store.getCurrentUser() | async; as currentUser) {
-  <div>
-    <p>Name: {{ currentUser.name | truncate }}</p>
-  </div>
-  <div>
-    <p>Email: {{ currentUser.email | truncate }}</p>
-  </div>
-  <div>
-    <p>Role: {{ currentUser.role | truncate }}</p>
-  </div>
 
-  <button mat-raised-button (click)="store.logout()">Logout</button>
+  @if (store.getCurrentUser() | async; as currentUser) {
+  <div class="data">
+    <div>
+      <p>Name: {{ currentUser.name | truncate }}</p>
+    </div>
+    <div>
+      <p>Email: {{ currentUser.email | truncate }}</p>
+    </div>
+    <div>
+      <p>Role: {{ currentUser.role | truncate }}</p>
+    </div>
+  </div>
+  <div class="buttons">
+    <button mat-raised-button (click)="store.logout()">Logout</button>
+  </div>
   } @else {
   <p>You are not logged in.</p>
-  <button mat-raised-button [routerLink]="['/login']">Login</button>
+  <div class="buttons">
+    <button mat-raised-button [routerLink]="['/login']">Login</button>
+  </div>
   }
 </div>

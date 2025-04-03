@@ -1,7 +1,5 @@
 <div class="registration">
   <h1>Registration</h1>
-  <p>This is the registration page</p>
-  <p>You can register here</p>
 
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="data">
     <mat-form-field class="inputs">
@@ -48,11 +46,9 @@
     </mat-form-field>
 
     @if (!isLoading) {
-    <div class="buttons">
+    <div class="submit">
       <button mat-flat-button type="submit">Register</button>
-      <button mat-flat-button [routerLink]="['/login']">
-        Already have an account?
-      </button>
+      <a [routerLink]="['/login']"> Already have an account? </a>
     </div>
     }@else{
     <div class="loading-container">
@@ -73,11 +69,5 @@
       <mat-icon>cancel</mat-icon>
     </button>
   </div>
-  }
-</div>
-
-<div>
-  @for (u of this.store.users$ | async; track u.id) {
-  <p>{{ u.name }}</p>
   }
 </div>

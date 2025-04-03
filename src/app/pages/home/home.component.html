@@ -1,15 +1,33 @@
 <div class="home">
   <div class="add">
-    <h2>Channel Dashboard</h2>
+    <h2>Widgets</h2>
 
     <button mat-raised-button (click)="openDialog()" class="add-widgets">
-      Make a new widget
+      New widget
     </button>
   </div>
 
+  <!-- Szoba választó -->
+  <div class="select">
+    <mat-form-field>
+      <mat-label>Select room</mat-label>
+      <mat-select
+        [value]="currentRoom$ | async"
+        (selectionChange)="selectRoom($event.value)"
+      >
+        @for (room of rooms$ | async; track room.id) {
+        <mat-option [value]="room">{{ room.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Widgetek megjelenítése -->
   <div #dashboard class="dashboard-widgets">
-    @for (w of this.store.items$ | async; track w.id) {
-    <app-widget [data]="w"></app-widget>
+    @for (widget of (currentRoom$ |async)?.devices; track widget.id) {
+    <app-widget [data]="widget"></app-widget>
+    } @empty {
+    <p>No widgets in this room</p>
     }
   </div>
 </div>

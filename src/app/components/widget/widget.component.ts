@@ -14,6 +14,7 @@ import { MatIcon } from '@angular/material/icon';
 import { WidgetOptionsComponent } from './widget-options/widget-options.component';
 import { DashboardService } from '../../services/dashboard.service';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { RoomService } from '../../services/room.service';
 
 @Component({
   selector: 'app-widget',
@@ -35,11 +36,11 @@ export class WidgetComponent implements OnInit {
   data = input.required<Widget>();
   showOptions = model(false);
 
-  store = inject(DashboardService);
+  store = inject(RoomService);
 
   ngOnInit() {
     console.log('Window width:', window.innerWidth);
-    this.checkScreenSize(); // Induláskor ellenőrizzük a méretet
+    //this.checkScreenSize(); // Induláskor ellenőrizzük a méretet
   }
 
   @HostListener('window:resize', ['$event'])
@@ -52,12 +53,16 @@ export class WidgetComponent implements OnInit {
       (window.innerWidth < 660 && this.data().columns !== 1) ||
       this.data().rows !== 1
     ) {
-      this.store.updateWidget(this.data().id, { columns: 1 });
-      this.store.updateWidget(this.data().id, { rows: 1 });
+      this.store.updateWidgetInRoom(this.data().roomId, this.data().id, {
+        columns: 1,
+      });
+      this.store.updateWidgetInRoom(this.data().roomId, this.data().id, {
+        rows: 1,
+      });
     }
   }
 
   onDataChange(update: Partial<Widget>) {
-    this.store.updateWidget(this.data().id, update);
+    this.store.updateWidgetInRoom(this.data().roomId, this.data().id, update);
   }
 }

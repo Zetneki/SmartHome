@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Type, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { WidgetComponent } from '../../components/widget/widget.component';
 import { DashboardService } from '../../services/dashboard.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,9 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LightComponent } from './widgets/light/light.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddWidgetsComponent } from '../../components/add-widgets/add-widgets.component';
+
+import { RoomService } from '../../services/room.service';
+import { take } from 'rxjs';
+import { Room } from '../../models/room.model';
 
 @Component({
   selector: 'app-home',
@@ -29,30 +32,38 @@ import { AddWidgetsComponent } from '../../components/add-widgets/add-widgets.co
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  store = inject(DashboardService);
+  roomService = inject(RoomService);
+
+  rooms$ = this.roomService.rooms$;
+  currentRoom$ = this.roomService.currentRoom$;
 
   dashboard = viewChild.required<ElementRef>('dashboard');
-
-  id_value = Date.now();
-  value = '';
-  selectedWidget: Type<unknown> = LightComponent;
 
   readonly dialog = inject(MatDialog);
 
   ngOnInit() {
     wrapGrid(this.dashboard().nativeElement, { duration: 300 });
+
+    console.log(this.rooms$.subscribe((r) => console.log(r)));
+
+    this.rooms$.pipe(take(1)).subscribe((rooms) => {
+      if (rooms.length > 0) {
+        this.selectRoom(rooms[0]);
+      }
+    });
+  }
+
+  selectRoom(room: Room) {
+    this.roomService.currentRoom.next(room);
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(AddWidgetsComponent);
-    const nyitoGomb = document.querySelector(
-      '.add-widgets'
-    ) as HTMLButtonElement;
+    const open = document.querySelector('.add-widgets') as HTMLButtonElement;
     const appRoot = document.querySelector('app-root');
 
-    // Fókusz eltávolítása a nyitó gombról
-    if (nyitoGomb) {
-      nyitoGomb.blur();
+    if (open) {
+      open.blur();
     }
 
     dialogRef.afterOpened().subscribe(() => {
@@ -68,7 +79,22 @@ export class HomeComponent {
         appRoot.removeAttribute('inert');
       }
       if (result) {
-        this.store.addWidget(result);
+        const { widget, roomName } = result;
+
+        const existingRoom = this.roomService.roomsSubject.value.find(
+          (r) => r.name.toLowerCase() === roomName.toLowerCase()
+        );
+
+        if (existingRoom) {
+          this.roomService.addWidgetToRoom(existingRoom.id, widget);
+        } else {
+          const newRoom: Room = {
+            id: Date.now(),
+            name: roomName,
+            devices: [widget],
+          };
+          this.roomService.addRoom(newRoom);
+        }
       }
     });
   }

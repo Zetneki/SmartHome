@@ -1,27 +1,51 @@
-<div class="add-widgets" autofocus>
+<form [formGroup]="widgetForm" class="add-widgets" autofocus>
   <p class="title">New widget</p>
   <mat-form-field class="example-form-field">
     <mat-label>Name</mat-label>
-    <input
-      matInput
-      type="text"
-      [(ngModel)]="value"
-      autofocus
-      placeholder="Widget neve"
-    />
+    <input matInput type="text" formControlName="name" autofocus />
+    @if (getControl('name')?.hasError('required')) {
+    <mat-error>Widget name is required.</mat-error>
+    }
   </mat-form-field>
   <!--{{ value }}-->
+
   <mat-form-field>
     <mat-label>Widget type</mat-label>
-    <mat-select [(ngModel)]="selectedWidget">
+    <mat-select formControlName="widgetType">
       @for (widget of widgets; track widget) {
       <mat-option [value]="widget.value">{{ widget.viewValue }}</mat-option>
       }
     </mat-select>
+    @if (getControl('widgetType')?.hasError('required')) {
+    <mat-error>Widget type is required.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Room name</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="roomName"
+      [matAutocomplete]="auto"
+      required
+    />
+    @if (getControl('roomName')?.hasError('required')) {
+    <mat-error>Room name is required.</mat-error>
+    }
+    <mat-autocomplete #auto="matAutocomplete">
+      @for (room of filteredRooms$ | async; track room.id) {
+      <mat-option [value]="room.name" (onSelectionChange)="selectRoom(room)">
+        {{ room.name }}
+      </mat-option>
+      }
+    </mat-autocomplete>
   </mat-form-field>
   <!--{{ selectedWidget }}-->
 
-  <button mat-button (click)="newWidget()">Save</button>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="newWidget()" [disabled]="!widgetForm.valid">
+    Save
+  </button>
+  <button mat-button (click)="onNoClick()">Cancel</button>
   <!--{{ id_value }}-->
-</div>
+</form>

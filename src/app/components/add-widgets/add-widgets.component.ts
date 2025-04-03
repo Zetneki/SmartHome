@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, Type, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule, MatLabel } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +17,12 @@ import { SecurityCameraComponent } from '../../pages/home/widgets/security-camer
 import { SubscribersComponent } from '../../pages/home/widgets/subscribers/subscribers.component';
 import { DashboardService } from '../../services/dashboard.service';
 import { Widget } from '../../models/widget';
+import { RoomService } from '../../services/room.service';
+import { AuthService } from '../../services/auth.service';
+import { map, Observable, startWith, switchMap } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Room } from '../../models/room.model';
 
 @Component({
   selector: 'app-add-widgets',
@@ -30,23 +36,58 @@ import { Widget } from '../../models/widget';
     MatSelectModule,
     MatDialogModule,
     MatLabel,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './add-widgets.component.html',
   styleUrl: './add-widgets.component.scss',
 })
 export class AddWidgetsComponent {
-  store = inject(DashboardService);
+  roomService = inject(RoomService);
+  authService = inject(AuthService);
+
+  selectedRoomId: number = 0;
+
+  rooms = this.roomService.roomsSubject;
+  currentUser$ = this.authService.currentUser$;
+
+  widgetForm: FormGroup;
+  filteredRooms$: Observable<Room[]>;
+
+  private manualSelection = false;
+
+  constructor(private fb: FormBuilder) {
+    this.widgetForm = this.fb.group({
+      name: ['', Validators.required],
+      widgetType: [LightComponent, Validators.required],
+      roomName: ['', Validators.required],
+    });
+
+    this.filteredRooms$ = this.widgetForm.get('roomName')!.valueChanges.pipe(
+      startWith(''),
+      switchMap((value) =>
+        this.roomService.rooms$.pipe(
+          map((rooms) => {
+            const filtered = rooms.filter((room) =>
+              room.name.toLowerCase().includes((value || '').toLowerCase())
+            );
+
+            // Automatikus választás csak ha nem volt kézi választás
+            if (filtered.length === 1 && !this.manualSelection) {
+              this.selectedRoomId = filtered[0].id;
+            }
+            return filtered;
+          })
+        )
+      )
+    );
+  }
+
   readonly dialogRef = inject(MatDialogRef<AddWidgetsComponent>);
 
   dashboard = viewChild.required<ElementRef>('dashboard');
 
   id_value = Date.now();
-  value = '';
-  selectedWidget: Type<unknown> = LightComponent;
-
-  readonly dialog = inject(MatDialog);
-
-  constructor() {}
 
   widgets = [
     { value: LightComponent, viewValue: 'Light' },
@@ -55,20 +96,39 @@ export class AddWidgetsComponent {
     { value: SubscribersComponent, viewValue: 'Subscribers' },
   ];
 
-  rooms = [{ value: LightComponent, viewValue: 'Light' }];
+  getControl(controlName: string) {
+    return this.widgetForm.get(controlName);
+  }
+
+  selectRoom(room: Room) {
+    this.selectedRoomId = room.id;
+    this.manualSelection = true;
+    this.widgetForm.patchValue({
+      roomName: room.name,
+    });
+  }
 
   newWidget() {
-    this.id_value = Date.now();
+    if (this.widgetForm.valid && this.selectedRoomId) {
+      this.id_value = Date.now();
+      const formValue = this.widgetForm.value;
 
-    this.dialogRef.close({
-      id: this.id_value,
-      label: this.value,
-      content: this.selectedWidget,
-      rows: 1,
-      columns: 1,
-      backgroundColor: 'var(--mat-sys-primary)',
-      color: 'white',
-    } as Widget);
+      const currentWidget: Widget = {
+        id: this.id_value,
+        roomId: this.selectedRoomId,
+        label: formValue.name,
+        content: formValue.widgetType,
+        rows: 1,
+        columns: 1,
+        backgroundColor: 'var(--mat-sys-primary)',
+        color: 'white',
+      };
+
+      this.dialogRef.close({
+        widget: currentWidget,
+        roomName: formValue.roomName.trim(),
+      });
+    }
   }
 
   onNoClick() {

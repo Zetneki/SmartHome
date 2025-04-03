@@ -2,16 +2,48 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, delay, Observable, of, throwError } from 'rxjs';
 import { User } from '../models/user.model';
-import { Room } from '../models/room.model';
+import { LightComponent } from '../pages/home/widgets/light/light.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  usersSubject = new BehaviorSubject<User[]>([]);
+  usersSubject = new BehaviorSubject<User[]>([
+    {
+      id: 1,
+      name: 'asdasd',
+      email: 'asdasd@asd.com',
+      role: 'user',
+      password: 'asdasdasd',
+      passwordConfirm: 'asdasdasd',
+      rooms: [
+        {
+          id: 1,
+          name: 'asdasd',
+          devices: [
+            {
+              id: 1,
+              roomId: 1,
+              label: 'szobalampa',
+              content: LightComponent,
+              rows: 1,
+              columns: 1,
+              backgroundColor: 'var(--mat-sys-primary)',
+              color: 'white',
+              /*contentData: {
+                widgetId: 1,
+                name: 'Light',
+                switch: true,
+              },*/
+            },
+          ],
+        },
+      ],
+    },
+  ]);
   users$ = this.usersSubject.asObservable();
 
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
   constructor(private router: Router) {}
 
@@ -52,6 +84,14 @@ export class AuthService {
     this.currentUserSubject.next(user);
 
     return of(user).pipe(delay(1000));
+  }
+
+  updateUser(updatedUser: User) {
+    const users = this.usersSubject.value.map((u) =>
+      u.id === updatedUser.id ? updatedUser : u
+    );
+    this.usersSubject.next(users);
+    this.currentUserSubject.next(updatedUser);
   }
 
   logout() {
