@@ -14,6 +14,8 @@ import { AddWidgetsComponent } from '../../components/add-widgets/add-widgets.co
 import { RoomService } from '../../services/room.service';
 import { take } from 'rxjs';
 import { Room } from '../../models/room.model';
+import { AuthService } from '../../services/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +28,7 @@ import { Room } from '../../models/room.model';
     CommonModule,
     MatSelectModule,
     MatDialogModule,
+    RouterLink,
   ],
   providers: [DashboardService],
   templateUrl: './home.component.html',
@@ -33,6 +36,7 @@ import { Room } from '../../models/room.model';
 })
 export class HomeComponent {
   roomService = inject(RoomService);
+  userService = inject(AuthService);
 
   rooms$ = this.roomService.rooms$;
   currentRoom$ = this.roomService.currentRoom$;
@@ -46,15 +50,19 @@ export class HomeComponent {
 
     console.log(this.rooms$.subscribe((r) => console.log(r)));
 
+    this.roomService.loadSelectedRoom();
+
     this.rooms$.pipe(take(1)).subscribe((rooms) => {
       if (rooms.length > 0) {
-        this.selectRoom(rooms[0]);
+        if (!this.roomService.currentRoom.value) {
+          this.selectRoom(rooms[0]);
+        }
       }
     });
   }
 
   selectRoom(room: Room) {
-    this.roomService.currentRoom.next(room);
+    this.roomService.selectRoom(room);
   }
 
   openDialog() {
@@ -88,8 +96,10 @@ export class HomeComponent {
         if (existingRoom) {
           this.roomService.addWidgetToRoom(existingRoom.id, widget);
         } else {
+          const roomId = Date.now();
+          widget.roomId = roomId;
           const newRoom: Room = {
-            id: Date.now(),
+            id: roomId,
             name: roomName,
             devices: [widget],
           };

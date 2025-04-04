@@ -1,104 +1,104 @@
 .nav {
   background-color: var(--mat-sys-primary);
-}
 
-.nav-links {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
-  .nav-link {
-    display: flex;
-    align-items: center;
+  .nav-links {
+    width: 100%;
     height: 100%;
-    width: 12rem;
-    color: white;
-    border-radius: 0;
-    cursor: pointer;
-    &:hover {
-      transition: 0.3s ease-in-out;
-      background-color: var(--mat-sys-inverse-primary);
-    }
-  }
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 
-  @media screen and (min-width: 715px) {
-    .sidebar-container,
-    .sidebar,
-    .sidebar-content {
-      display: none;
-    }
-  }
-
-  @media screen and (max-width: 714px) {
     .nav-link {
-      display: none;
-    }
-
-    .sidebar-container {
-      background-color: var(--mat-sys-primary);
+      display: flex;
+      align-items: center;
       height: 100%;
-    }
-
-    .sidebar {
-      width: 50vw; // Az egész képernyő szélességét lefedi
-      height: 100vh; // Az egész képernyő magasságát lefedi
-      position: fixed; // Rögzített, így az oldal görgetésekor nem mozdul el
-      top: 0;
-      left: 0;
-      background: rgba(0, 0, 0, 0.8); // Átlátszó fekete háttér (módosítható)
+      width: 12rem;
       color: white;
-      z-index: 100000; // Magasabb, mint a többi elem, így biztosan fölé kerül
-      display: flex;
-      flex-direction: column;
       border-radius: 0;
-
-      .sidebar-close {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        padding: 1rem;
-        border-radius: 0;
-
-        mat-icon {
-          margin: 0;
-          color: white;
-        }
-      }
-
-      a {
-        width: 100%; // **A teljes sidebar szélességét elfoglalja**
-        text-align: left; // **Balra igazítja a szöveget**
-        color: white;
-        text-decoration: none;
-        border-radius: 0;
-        display: block; // **Teljes szélességben megjelenik**
-        padding-top: 1rem;
-        padding-bottom: 2.5rem;
-      }
-    }
-
-    .sidebar-content {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      border-radius: 0;
-
-      mat-icon {
-        margin: 0;
-      }
-      &::after {
-        border: none;
-      }
+      cursor: pointer;
       &:hover {
         transition: 0.3s ease-in-out;
         background-color: var(--mat-sys-inverse-primary);
       }
     }
-  }
-}
 
-> span {
-  color: white;
+    @media screen and (min-width: 715px) {
+      .sidebar-container,
+      .sidebar,
+      .sidebar-content {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 714px) {
+      .nav-link {
+        display: none;
+      }
+
+      .sidebar-container {
+        background-color: var(--mat-sys-primary);
+        height: 100%;
+      }
+
+      .sidebar {
+        width: 50vw; // Az egész képernyő szélességét lefedi
+        height: 100vh; // Az egész képernyő magasságát lefedi
+        position: fixed; // Rögzített, így az oldal görgetésekor nem mozdul el
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8); // Átlátszó fekete háttér (módosítható)
+        color: white;
+        z-index: 100000; // Magasabb, mint a többi elem, így biztosan fölé kerül
+        display: flex;
+        flex-direction: column;
+        border-radius: 0;
+
+        .sidebar-close {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          padding: 1rem;
+          border-radius: 0;
+
+          mat-icon {
+            margin: 0;
+            color: white;
+          }
+        }
+
+        a {
+          width: 100%; // **A teljes sidebar szélességét elfoglalja**
+          text-align: left; // **Balra igazítja a szöveget**
+          color: white;
+          text-decoration: none;
+          border-radius: 0;
+          display: block; // **Teljes szélességben megjelenik**
+          padding-top: 1rem;
+          padding-bottom: 2.5rem;
+        }
+      }
+
+      .sidebar-content {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        border-radius: 0;
+
+        mat-icon {
+          margin: 0;
+        }
+        &::after {
+          border: none;
+        }
+        &:hover {
+          transition: 0.3s ease-in-out;
+          background-color: var(--mat-sys-inverse-primary);
+        }
+      }
+    }
+  }
+
+  .title {
+    color: white;
+  }
 }

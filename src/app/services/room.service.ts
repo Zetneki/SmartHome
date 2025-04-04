@@ -20,10 +20,28 @@ export class RoomService {
   ) {
     // Inicializálás: Betölti a bejelentkezett felhasználó szobáit
     this.authService.getCurrentUser().subscribe((user) => {
-      if (user) {
-        this.roomsSubject.next(user.rooms);
-      }
+      user ? this.loadRooms() : this.resetRooms();
     });
+  }
+
+  selectRoom(room: Room) {
+    this.currentRoom.next(room);
+    sessionStorage.setItem('selectedRoomId', room.id.toString());
+  }
+
+  loadSelectedRoom() {
+    const savedRoomId = sessionStorage.getItem('selectedRoomId');
+    if (savedRoomId) {
+      const room = this.roomsSubject.value.find((r) => r.id === +savedRoomId);
+      if (room) {
+        this.currentRoom.next(room);
+      }
+    }
+  }
+
+  private loadRooms() {
+    const user = this.authService.currentUserSubject.value;
+    this.roomsSubject.next(user?.rooms ?? []);
   }
 
   // Új szoba hozzáadása
@@ -110,10 +128,18 @@ export class RoomService {
           room.devices,
           widgetId
         );
+        if (room.devices.length === 0) {
+          user.rooms = user.rooms.filter((r) => r.id !== roomId);
+        }
         console.log('lefutott a remove');
         this.authService.updateUser(user);
         this.roomsSubject.next(user.rooms);
       }
     }
+  }
+
+  resetRooms() {
+    this.roomsSubject.next([]);
+    this.currentRoom.next(null);
   }
 }

@@ -82,7 +82,6 @@ export class DashboardService {
 
   // Widget logika (pl. mozgatás, méretezés)
   updateWidget(widgets: Widget[], id: number, widget: Partial<Widget>) {
-    console.log(widget);
     const index = widgets.findIndex((w) => w.id === id);
     if (index !== -1) {
       const newWidgets = [...widgets];

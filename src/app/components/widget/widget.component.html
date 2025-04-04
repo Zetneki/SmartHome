@@ -12,9 +12,15 @@
   >
     <mat-icon>settings</mat-icon>
   </button>
-  <ng-container [ngComponentOutlet]="data().content" />
-
-  @if (showOptions()) {
+  @switch (data().content) { @case (LightComponent) {
+  <app-light [id]="data().id"></app-light>
+  } @case (TemperatureComponent) {
+  <app-temperature [id]="data().id"></app-temperature>
+  } @case (SecurityCameraComponent) {
+  <app-security-camera [id]="data().id"></app-security-camera>
+  } @default {
+  <app-light [id]="data().id"></app-light>
+  } } @if (showOptions()) {
   <app-widget-options
     [(showOptions)]="showOptions"
     [data]="data()"

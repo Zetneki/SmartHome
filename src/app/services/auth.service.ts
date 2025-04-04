@@ -15,7 +15,6 @@ export class AuthService {
       email: 'asdasd@asd.com',
       role: 'user',
       password: 'asdasdasd',
-      passwordConfirm: 'asdasdasd',
       rooms: [
         {
           id: 1,
@@ -30,11 +29,11 @@ export class AuthService {
               columns: 1,
               backgroundColor: 'var(--mat-sys-primary)',
               color: 'white',
-              /*contentData: {
+              contentData: {
                 widgetId: 1,
-                name: 'Light',
-                switch: true,
-              },*/
+                text: 'Brightness',
+                switch: false,
+              },
             },
           ],
         },
@@ -45,6 +44,7 @@ export class AuthService {
 
   currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
+
   constructor(private router: Router) {}
 
   signUp(user: any): Observable<any> {
@@ -58,7 +58,6 @@ export class AuthService {
       email: user.email,
       role: user.role,
       password: user.password,
-      passwordConfirm: user.confirmPassword,
       rooms: [],
     };
 

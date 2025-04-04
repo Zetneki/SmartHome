@@ -1,5 +1,10 @@
-<div class="widget temperature-widget">
-  <button (click)="adjustTemp(-1)">-</button>
-  <span>{{ temperature }}°C</span>
-  <button (click)="adjustTemp(1)">+</button>
+<div class="temperature-widget">
+  <div class="elements">
+    <p>Temperature:</p>
+    <div>
+      <button (click)="adjustTemp(-1)">-</button>
+      <span>{{ temperature }}°C</span>
+      <button (click)="adjustTemp(1)">+</button>
+    </div>
+  </div>
 </div>

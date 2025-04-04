@@ -6,6 +6,5 @@ export interface User {
   email: string;
   role: 'admin' | 'user';
   password: string;
-  passwordConfirm: string;
   rooms: Room[];
 }

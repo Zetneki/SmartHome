@@ -93,7 +93,6 @@ export class AddWidgetsComponent {
     { value: LightComponent, viewValue: 'Light' },
     { value: TemperatureComponent, viewValue: 'Temperature' },
     { value: SecurityCameraComponent, viewValue: 'SecurityCamera' },
-    { value: SubscribersComponent, viewValue: 'Subscribers' },
   ];
 
   getControl(controlName: string) {
@@ -108,16 +107,57 @@ export class AddWidgetsComponent {
     });
   }
 
+  widgetContent = [
+    {
+      value: LightComponent,
+      defaultContent: (id: number) => ({
+        widgetId: id,
+        text: 'Brightness',
+        switch: false,
+      }),
+    },
+    {
+      value: TemperatureComponent,
+      defaultContent: (id: number) => ({
+        widgetId: id,
+        numberValue: 20,
+      }),
+    },
+    {
+      value: SecurityCameraComponent,
+      defaultContent: (id: number) => ({
+        widgetId: id,
+        switch: false,
+      }),
+    },
+  ];
+
+  getDefaultWidgetConfig() {
+    return {
+      value: LightComponent,
+      defaultContent: (id: number) => ({
+        widgetId: id,
+        text: 'Brightness',
+        switch: false,
+      }),
+    };
+  }
+
   newWidget() {
-    if (this.widgetForm.valid && this.selectedRoomId) {
+    if (this.widgetForm.valid) {
       this.id_value = Date.now();
       const formValue = this.widgetForm.value;
+
+      const widgetConfig =
+        this.widgetContent.find((w) => w.value === formValue.value) ||
+        this.getDefaultWidgetConfig();
 
       const currentWidget: Widget = {
         id: this.id_value,
         roomId: this.selectedRoomId,
         label: formValue.name,
         content: formValue.widgetType,
+        contentData: widgetConfig.defaultContent(this.id_value),
         rows: 1,
         columns: 1,
         backgroundColor: 'var(--mat-sys-primary)',

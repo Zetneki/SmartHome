@@ -1,4 +1,5 @@
 <div class="home">
+  @if (userService.currentUserSubject.value) {
   <div class="add">
     <h2>Widgets</h2>
 
@@ -22,12 +23,31 @@
     </mat-form-field>
   </div>
 
+  }@else {
+  <div class="login-register">
+    <h2>Welcome to SmartHome</h2>
+    <div>
+      <p>
+        Control your home with ease. Log in or create an account to get started!
+      </p>
+    </div>
+    <div class="button-group">
+      <button mat-raised-button type="button" [routerLink]="['/login']">
+        Login
+      </button>
+      <button mat-raised-button type="button" [routerLink]="['/registration']">
+        Registration
+      </button>
+    </div>
+  </div>
+  }
   <!-- Widgetek megjelenítése -->
   <div #dashboard class="dashboard-widgets">
     @for (widget of (currentRoom$ |async)?.devices; track widget.id) {
     <app-widget [data]="widget"></app-widget>
-    } @empty {
-    <p>No widgets in this room</p>
     }
+    <!--@empty {
+    <p>No widgets in this room</p>
+  }-->
   </div>
 </div>

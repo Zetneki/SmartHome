@@ -2,7 +2,7 @@
   position: absolute;
   //z-index: 10;
   background: var(--mat-sys-background);
-  color: white;
+  color: var(--mat-sys-on-background);
   top: 0;
   left: 0;
   border-radius: inherit;
@@ -37,16 +37,16 @@
 
 .forward-button {
   position: absolute;
-  top: 50%;
+  top: 80%;
   transform: translateY(-50%);
-  right: -5px;
+  right: 50px;
 }
 
 .backward-button {
   position: absolute;
-  top: 50%;
+  top: 80%;
   transform: translateY(-50%);
-  left: -5px;
+  left: 50px;
 }
 
 .remove-button {

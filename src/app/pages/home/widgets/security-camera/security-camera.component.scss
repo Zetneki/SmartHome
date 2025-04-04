@@ -3,7 +3,9 @@
   top: 25%;
   left: 40%;
   width: 8vw;
-  height: 80px;
+  //width: 3rem;
+  height: 4rem;
+  margin-top: 1.3rem;
   background-color: rgb(196, 30, 58);
   color: white;
   display: flex;
@@ -37,5 +39,11 @@
   p {
     font-size: 12px;
     margin-top: 4px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .security-widget {
+    width: 3rem;
   }
 }
