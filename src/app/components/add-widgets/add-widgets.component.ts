@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Type, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule, MatLabel } from '@angular/material/input';
@@ -6,15 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { LightComponent } from '../../pages/home/widgets/light/light.component';
 import { TemperatureComponent } from '../../pages/home/widgets/temperature/temperature.component';
 import { SecurityCameraComponent } from '../../pages/home/widgets/security-camera/security-camera.component';
-import { DashboardService } from '../../services/dashboard.service';
 import { Widget } from '../../models/widget';
 import { RoomService } from '../../services/room.service';
 import { AuthService } from '../../services/auth.service';

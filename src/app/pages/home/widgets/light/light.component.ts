@@ -1,9 +1,7 @@
-// light.component.ts
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RoomService } from '../../../../services/room.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-light',

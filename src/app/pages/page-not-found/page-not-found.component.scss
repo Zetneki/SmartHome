@@ -22,3 +22,26 @@
 button {
   z-index: 0;
 }
+
+@media screen and (max-width: 600px) {
+  .card {
+    width: 100%;
+    margin: auto;
+    margin-top: 3rem;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pic {
+    width: 20rem;
+  }
+
+  .desc {
+    padding: 0;
+    margin: 2rem 0 1rem 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+}
