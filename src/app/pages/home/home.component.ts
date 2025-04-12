@@ -16,6 +16,7 @@ import { take } from 'rxjs';
 import { Room } from '../../models/room.model';
 import { AuthService } from '../../services/auth.service';
 import { RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { RouterLink } from '@angular/router';
     MatSelectModule,
     MatDialogModule,
     RouterLink,
+    MatIcon,
   ],
   providers: [DashboardService],
   templateUrl: './home.component.html',
@@ -40,6 +42,7 @@ export class HomeComponent {
 
   rooms$ = this.roomService.rooms$;
   currentRoom$ = this.roomService.currentRoom$;
+  widgetError = this.roomService.widgetErrorSubject;
 
   dashboard = viewChild.required<ElementRef>('dashboard');
 
@@ -95,6 +98,7 @@ export class HomeComponent {
 
         if (existingRoom) {
           this.roomService.addWidgetToRoom(existingRoom.id, widget);
+          this.selectRoom(existingRoom);
         } else {
           const roomId = Date.now();
           widget.roomId = roomId;
@@ -104,6 +108,7 @@ export class HomeComponent {
             devices: [widget],
           };
           this.roomService.addRoom(newRoom);
+          this.selectRoom(newRoom);
         }
       }
     });

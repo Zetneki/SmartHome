@@ -14,7 +14,6 @@ import {
 import { LightComponent } from '../../pages/home/widgets/light/light.component';
 import { TemperatureComponent } from '../../pages/home/widgets/temperature/temperature.component';
 import { SecurityCameraComponent } from '../../pages/home/widgets/security-camera/security-camera.component';
-import { SubscribersComponent } from '../../pages/home/widgets/subscribers/subscribers.component';
 import { DashboardService } from '../../services/dashboard.service';
 import { Widget } from '../../models/widget';
 import { RoomService } from '../../services/room.service';

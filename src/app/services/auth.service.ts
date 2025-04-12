@@ -23,7 +23,7 @@ export class AuthService {
             {
               id: 1,
               roomId: 1,
-              label: 'szobalampa',
+              label: 'roomlamp',
               content: LightComponent,
               rows: 1,
               columns: 1,
@@ -65,6 +65,7 @@ export class AuthService {
     this.usersSubject.next([...currentUsers, newUser]);
 
     console.log('New user:', newUser);
+    console.log('users:' + this.usersSubject.value);
 
     return of(newUser).pipe(delay(2000));
   }

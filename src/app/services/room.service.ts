@@ -13,6 +13,8 @@ export class RoomService {
   rooms$ = this.roomsSubject.asObservable();
   currentRoom = new BehaviorSubject<Room | null>(null);
   currentRoom$ = this.currentRoom.asObservable();
+  widgetErrorSubject = new BehaviorSubject<string>('');
+  widgetError$ = this.widgetErrorSubject.asObservable();
 
   constructor(
     private authService: AuthService,
@@ -57,6 +59,20 @@ export class RoomService {
   // Widget hozzáadása egy szobához
   addWidgetToRoom(roomId: number, widget: Widget) {
     console.log('fut a bro');
+    if (this.currentRoom.value?.devices) {
+      for (const device of this.currentRoom.value?.devices) {
+        if (
+          device.label.trim() === widget.label.trim() &&
+          device.content === widget.content
+        ) {
+          this.widgetErrorSubject.next(
+            `'${widget.label}' already exists in this room`
+          );
+          console.log('ilyen widget mar van');
+          return;
+        }
+      }
+    }
     const user = this.authService.currentUserSubject.value;
     if (user) {
       const room = user.rooms.find((r) => r.id === roomId);

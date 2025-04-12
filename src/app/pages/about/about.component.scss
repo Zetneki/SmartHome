@@ -4,11 +4,14 @@
   align-items: start;
   margin: auto;
   width: 80%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 3rem;
 
   .title {
     font-size: 2rem;
     font-weight: bold;
-    margin-top: 1rem;
   }
 
   .header {

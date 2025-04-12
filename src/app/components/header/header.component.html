@@ -1,8 +1,10 @@
 <mat-toolbar class="nav">
   <span class="title">Smart Home</span>
   <div class="nav-links">
-    <!--<a routerLink="/login" mat-button class="nav-link">Login</a>
-    <a routerLink="/registration" mat-button class="nav-link">Registration</a>-->
+    <button class="light-dark-switch" (click)="toggleTheme()">
+      <mat-icon *ngIf="!isDarkMode">light_mode</mat-icon>
+      <mat-icon *ngIf="isDarkMode">dark_mode</mat-icon>
+    </button>
     <a routerLink="/home" mat-button class="nav-link">Home</a>
     <a routerLink="/about" mat-button class="nav-link">About</a>
     <a routerLink="/profile" mat-button class="nav-link">Profile</a>
@@ -10,7 +12,11 @@
     <mat-sidenav-container class="sidebar-container">
       <mat-sidenav #drawer class="sidebar" mode="over" [opened]="isOpen">
         <div class="sidebar-close">
-          <button mat-raised-button (click)="toggleSidebar()">
+          <button mat-raised-button class="close" (click)="toggleTheme()">
+            <mat-icon *ngIf="!isDarkMode">light_mode</mat-icon>
+            <mat-icon *ngIf="isDarkMode">dark_mode</mat-icon>
+          </button>
+          <button mat-raised-button (click)="toggleSidebar()" class="close">
             <mat-icon>close</mat-icon>
           </button>
         </div>
