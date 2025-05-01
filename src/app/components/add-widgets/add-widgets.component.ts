@@ -17,6 +17,9 @@ import { map, Observable, startWith, switchMap } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Room } from '../../models/room.model';
+import { EnergyComponent } from '../../pages/home/widgets/energy/energy.component';
+import { RollerShutterComponent } from '../../pages/home/widgets/roller-shutter/roller-shutter.component';
+import { LockComponent } from '../../pages/home/widgets/lock/lock.component';
 
 @Component({
   selector: 'app-add-widgets',
@@ -86,7 +89,10 @@ export class AddWidgetsComponent {
   widgets = [
     { value: LightComponent, viewValue: 'Light' },
     { value: TemperatureComponent, viewValue: 'Temperature' },
-    { value: SecurityCameraComponent, viewValue: 'SecurityCamera' },
+    { value: SecurityCameraComponent, viewValue: 'Security Camera' },
+    { value: EnergyComponent, viewValue: 'Energy' },
+    { value: RollerShutterComponent, viewValue: 'Roller Shutter' },
+    { value: LockComponent, viewValue: 'Lock' },
   ];
 
   getControl(controlName: string) {

@@ -1,0 +1,13 @@
+<div class="widget lock-widget" [class.locked]="isLocked">
+  <div class="lock-icon">
+    <mat-icon [color]="isLocked ? 'primary' : 'accent'">{{ icon }}</mat-icon>
+  </div>
+
+  <mat-slide-toggle
+    [checked]="isLocked"
+    (change)="toggleLock()"
+    color="primary"
+  >
+    {{ isLocked ? "Closed" : "Opened" }}
+  </mat-slide-toggle>
+</div>

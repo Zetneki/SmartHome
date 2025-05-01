@@ -1,12 +1,12 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { MatSliderModule } from '@angular/material/slider';
 import { RoomService } from '../../../../services/room.service';
 
 @Component({
   selector: 'app-light',
   standalone: true,
-  imports: [MatIcon, CommonModule],
+  imports: [MatIcon, MatSliderModule],
   templateUrl: './light.component.html',
   styleUrls: ['./light.component.scss'],
 })
@@ -15,13 +15,11 @@ export class LightComponent implements OnInit {
   @Input() id!: number;
 
   isOn = false;
+  brightness = 0;
 
   ngOnInit() {
     this.updateState();
-
-    this.roomService.currentRoom$.subscribe(() => {
-      this.updateState();
-    });
+    this.roomService.currentRoom$.subscribe(() => this.updateState());
   }
 
   private updateState() {
@@ -29,28 +27,42 @@ export class LightComponent implements OnInit {
       (d) => d.id === this.id
     );
     this.isOn = device?.contentData?.switch ?? false;
+    this.brightness = device?.contentData?.percentage ?? (this.isOn ? 80 : 0);
   }
 
   toggleLight() {
+    this.isOn = !this.isOn;
+    this.brightness = this.isOn ? 100 : 0;
+    this.saveState();
+  }
+
+  updateBrightness(value: number) {
+    this.brightness = value;
+    this.isOn = value > 0;
+    this.saveState();
+  }
+
+  private saveState() {
     const room = this.roomService.currentRoom.value;
     if (!room) return;
 
     const deviceIndex = room.devices.findIndex((d) => d.id === this.id);
     if (deviceIndex === -1) return;
 
-    const newState = !room.devices[deviceIndex].contentData?.switch;
-
     this.roomService.updateWidgetInRoom(room.id, this.id, {
       contentData: {
         ...room.devices[deviceIndex].contentData,
-        switch: newState,
+        switch: this.isOn,
+        percentage: this.brightness,
       },
     });
-
-    this.isOn = newState;
   }
 
-  get brightness(): number {
-    return this.isOn ? 100 : 0;
+  get brightnessLabel(): string {
+    if (!this.isOn) return 'Off';
+    if (this.brightness < 30) return 'Low';
+    if (this.brightness < 70) return 'Medium';
+    if (this.brightness < 100) return 'High';
+    return 'On';
   }
 }

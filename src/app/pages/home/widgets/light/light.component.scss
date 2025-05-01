@@ -1,49 +1,82 @@
-/* light.component.scss */
 .light-widget {
-  position: absolute;
-  top: 40%;
-  left: 10%;
-  background-color: var(--mat-sys-primary-dark);
-  color: rgb(255, 255, 255);
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.2rem 0.5rem 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  text-align: center;
-  padding-top: 5px;
-  border-radius: 8px;
+  align-items: center;
   transition: all 0.3s ease;
+  margin-top: -0.75rem;
+  width: 90%;
+  height: 96%;
 
   &.active-widget {
-    background-color: var(--mat-sys-primary);
+    background: rgba(255, 215, 0, 0.1);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
   }
 
-  .light-button {
-    background: transparent;
+  .light-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+
+    .light-text {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .light-icon {
+      color: #ffd700;
+      font-size: 1.25rem;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .brightness-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+  }
+
+  mat-slider {
+    width: 90%;
+
+    .mdc-slider__thumb {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .power-button {
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    padding: 12px 24px;
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
     border-radius: 50%;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    &--active {
-      box-shadow: 0 0 15px rgba(255, 235, 59, 0.7);
-    }
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
 
     mat-icon {
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.25rem;
+      width: 1.25rem;
+      height: 1.25rem;
     }
-  }
 
-  .low-brightness {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9em;
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
   }
 }

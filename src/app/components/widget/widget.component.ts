@@ -15,6 +15,9 @@ import { RoomService } from '../../services/room.service';
 import { LightComponent } from '../../pages/home/widgets/light/light.component';
 import { SecurityCameraComponent } from '../../pages/home/widgets/security-camera/security-camera.component';
 import { TemperatureComponent } from '../../pages/home/widgets/temperature/temperature.component';
+import { EnergyComponent } from '../../pages/home/widgets/energy/energy.component';
+import { RollerShutterComponent } from '../../pages/home/widgets/roller-shutter/roller-shutter.component';
+import { LockComponent } from '../../pages/home/widgets/lock/lock.component';
 
 @Component({
   selector: 'app-widget',
@@ -26,6 +29,9 @@ import { TemperatureComponent } from '../../pages/home/widgets/temperature/tempe
     LightComponent,
     SecurityCameraComponent,
     TemperatureComponent,
+    EnergyComponent,
+    RollerShutterComponent,
+    LockComponent,
   ],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.scss',
@@ -44,6 +50,9 @@ export class WidgetComponent implements OnInit {
   LightComponent = LightComponent;
   SecurityCameraComponent = SecurityCameraComponent;
   TemperatureComponent = TemperatureComponent;
+  EnergyComponent = EnergyComponent;
+  RollerShutterComponent = RollerShutterComponent;
+  LockComponent = LockComponent;
 
   ngOnInit() {
     console.log('Window width:', window.innerWidth);

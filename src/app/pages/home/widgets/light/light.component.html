@@ -1,16 +1,19 @@
-<div class="widget light-widget" [ngClass]="{ 'active-widget': isOn }">
-  <button
-    (click)="toggleLight()"
-    [ngClass]="{
-      'light-button': true,
-      'light-button--active': isOn
-    }"
-  >
-    <mat-icon [ngStyle]="{ color: isOn ? '#FFD700' : '#fff' }">
-      {{ isOn ? "lightbulb" : "lightbulb_outline" }}
-    </mat-icon>
-  </button>
-  <p [ngClass]="{ 'low-brightness': brightness <= 20 }">
-    Brightness: {{ brightness }}%
-  </p>
+<div class="widget light-widget" [class.active-widget]="isOn">
+  <div class="light-header">
+    <div class="light-text">
+      <mat-icon class="light-icon">lightbulb</mat-icon>
+      <span class="brightness-label">{{ brightnessLabel }}</span>
+    </div>
+    <button class="power-button" (click)="toggleLight()">
+      <mat-icon>{{ isOn ? "power_settings_new" : "power_off" }}</mat-icon>
+    </button>
+  </div>
+
+  <mat-slider min="0" max="100" step="1" discrete>
+    <input
+      matSliderThumb
+      [value]="brightness"
+      (valueChange)="updateBrightness($event)"
+    />
+  </mat-slider>
 </div>

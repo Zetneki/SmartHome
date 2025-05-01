@@ -1,0 +1,17 @@
+<div class="widget roller-shutter-widget">
+  @if (sliderValue === 100) {
+  <div class="status">
+    <mat-icon>roller_shades_closed</mat-icon> {{ statusText }}
+  </div>
+  } @else {
+  <div class="status"><mat-icon>roller_shades</mat-icon> {{ statusText }}</div>
+  }
+
+  <mat-slider min="0" max="100" step="1" discrete>
+    <input
+      matSliderThumb
+      [value]="sliderValue"
+      (valueChange)="onValueChange($event)"
+    />
+  </mat-slider>
+</div>

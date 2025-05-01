@@ -1,0 +1,33 @@
+.lock-widget {
+  background: rgba(0, 18, 121, 0.1);
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -0.75rem;
+  transition: all 0.3s ease;
+  height: 85%;
+
+  &.locked {
+    background: rgba(83, 103, 216, 0.1);
+  }
+
+  .lock-icon {
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .lock-status {
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  mat-slide-toggle {
+    margin-top: 8px;
+  }
+}

@@ -1,0 +1,34 @@
+.energy-widget {
+  background-color: #ff9800; // Narancssárga energia stílus
+  color: #000;
+  height: 70%;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .left {
+    margin-left: 0.25rem;
+    mat-icon {
+      color: #000;
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem;
+
+    .power {
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .cost {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+  }
+}
