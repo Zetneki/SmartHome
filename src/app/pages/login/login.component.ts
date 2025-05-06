@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  /*
   store = inject(AuthService);
 
   loginForm: FormGroup;
@@ -80,5 +82,69 @@ export class LoginComponent {
     } else {
       this.loginError = 'Please fill out the form correctly';
     }
+  }*/
+
+  loginForm: FormGroup;
+  isLoading: boolean = false;
+  loginError: string = '';
+  showLoginForm: boolean = true;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+    });
+  }
+
+  clearError() {
+    this.loginError = '';
+  }
+
+  getControl(controlName: string) {
+    return this.loginForm.get(controlName);
+  }
+
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      this.loginError = 'Please fill out the form correctly';
+      return;
+    }
+
+    const emailValue = this.loginForm.get('email')?.value || '';
+    const passwordValue = this.loginForm.get('password')?.value || '';
+
+    this.isLoading = true;
+    this.showLoginForm = false;
+    this.loginError = '';
+
+    this.authService
+      .signIn(emailValue, passwordValue)
+      .then((userCredential) => {
+        console.log('Login successful:', userCredential.user);
+        this.router.navigateByUrl('/home');
+      })
+      .catch((error) => {
+        console.error('Login error:', error);
+        this.isLoading = false;
+        this.showLoginForm = true;
+
+        switch (error.code) {
+          case 'auth/user-not-found':
+            this.loginError = 'No account found with this email address';
+            break;
+          case 'auth/wrong-password':
+            this.loginError = 'Incorrect password';
+            break;
+          case 'auth/invalid-credential':
+            this.loginError = 'Invalid email or password';
+            break;
+          default:
+            this.loginError = 'Authentication failed. Please try again later.';
+        }
+      });
   }
 }

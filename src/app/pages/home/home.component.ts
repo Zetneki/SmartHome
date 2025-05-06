@@ -103,6 +103,7 @@ export class HomeComponent {
           const roomId = Date.now();
           widget.roomId = roomId;
           const newRoom: Room = {
+            userId: this.userService.currentUserSubject.value?.id || '',
             id: roomId,
             name: roomName,
             devices: [widget],

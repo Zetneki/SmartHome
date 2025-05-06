@@ -5,6 +5,7 @@
     <mat-form-field class="inputs">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" required />
+
       @if (getControl('email')?.hasError('required')) {
       <mat-error>Email is required.</mat-error>
       } @if (getControl('email')?.hasError('email')) {
@@ -15,6 +16,7 @@
     <mat-form-field class="inputs">
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password" required />
+
       @if (getControl('password')?.hasError('required')) {
       <mat-error>Password is required.</mat-error>
       } @if (getControl('password')?.hasError('minlength')) {
@@ -42,6 +44,7 @@
   <div class="error-message">
     <mat-icon class="error-icon">error_outline</mat-icon>
     <span>{{ loginError }}</span>
+
     <button mat-flat-button (click)="clearError()" class="close-button">
       <mat-icon>cancel</mat-icon>
     </button>

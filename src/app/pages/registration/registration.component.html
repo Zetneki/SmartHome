@@ -5,6 +5,7 @@
     <mat-form-field class="inputs">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" required />
+
       @if (getControl('email')?.hasError('required')) {
       <mat-error>Email is required.</mat-error>
       } @if (getControl('email')?.hasError('email')) {
