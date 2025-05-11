@@ -1,5 +1,6 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { RoomService } from '../../../../services/room.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-temperature',
@@ -7,18 +8,21 @@ import { RoomService } from '../../../../services/room.service';
   templateUrl: './temperature.component.html',
   styleUrl: './temperature.component.scss',
 })
-export class TemperatureComponent {
+export class TemperatureComponent implements OnInit, OnDestroy {
   roomService = inject(RoomService);
-  @Input() id!: number;
+  @Input() id!: string;
 
   temperature = 20;
+  private temperatureSubscription!: Subscription;
 
   ngOnInit() {
     this.updateState();
 
-    this.roomService.currentRoom$.subscribe(() => {
-      this.updateState();
-    });
+    this.temperatureSubscription = this.roomService.currentRoom$.subscribe(
+      () => {
+        this.updateState();
+      }
+    );
   }
 
   private updateState() {
@@ -47,5 +51,11 @@ export class TemperatureComponent {
     });
 
     this.temperature = newState;
+  }
+
+  ngOnDestroy() {
+    if (this.temperatureSubscription) {
+      this.temperatureSubscription.unsubscribe();
+    }
   }
 }

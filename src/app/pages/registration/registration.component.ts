@@ -32,62 +32,6 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './registration.component.scss',
 })
 export class RegistrationComponent {
-  /*
-  store = inject(AuthService);
-
-  registerForm: FormGroup;
-  signupError = '';
-
-  isLoading = false;
-
-  constructor(
-    private fb: FormBuilder,
-    private AuthService: AuthService,
-    private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(5)]],
-      email: ['', [Validators.required, Validators.email]],
-      role: ['user'],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required],
-    });
-  }
-
-  getControl(controlName: string) {
-    return this.registerForm.get(controlName);
-  }
-
-  clearError() {
-    this.signupError = '';
-  }
-
-  onSubmit() {
-    if (this.registerForm.valid) {
-      this.isLoading = true;
-
-      this.AuthService.signUp(this.registerForm.value).subscribe({
-        next: (response) => {
-          console.log('Registration successful', response);
-          this.signupError = '';
-          this.router.navigate(['/login']);
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.signupError = error || 'An unexpected error occurred';
-        },
-        complete: () => {
-          this.isLoading = false;
-
-          console.log('Successfully signed up');
-          console.log(this.store.users$);
-        },
-      });
-    } else {
-      this.signupError = 'Please fill out the form correctly';
-    }
-  }*/
-
   registerForm: FormGroup;
   isLoading: boolean = false;
   signupError: string = '';

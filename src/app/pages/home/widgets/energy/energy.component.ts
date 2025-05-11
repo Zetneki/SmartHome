@@ -1,6 +1,7 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RoomService } from '../../../../services/room.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-energy',
@@ -8,17 +9,20 @@ import { RoomService } from '../../../../services/room.service';
   templateUrl: './energy.component.html',
   styleUrl: './energy.component.scss',
 })
-export class EnergyComponent {
+export class EnergyComponent implements OnInit, OnDestroy {
   roomService = inject(RoomService);
-  @Input() id!: number;
+  @Input() id!: string;
 
   currentPower: number = 0;
   dailyCost: number = 0;
 
+  private energySubscription!: Subscription;
+  private dataInterval!: any;
+
   ngOnInit() {
     this.updateState();
 
-    this.roomService.currentRoom$.subscribe(() => {
+    this.energySubscription = this.roomService.currentRoom$.subscribe(() => {
       this.updateState();
     });
     this.simulateRealTimeData();
@@ -57,17 +61,27 @@ export class EnergyComponent {
       contentData: {
         ...room.devices[deviceIndex].contentData,
         numberValue: this.currentPower,
-        text: `${this.dailyCost} Ft/day`,
+        text: `${this.dailyCost}`,
       },
     });
   }
 
   simulateRealTimeData() {
-    setInterval(() => {
+    this.dataInterval = setInterval(() => {
       const fluctuation = Math.floor(Math.random() * 100) - 50;
       this.currentPower = Math.max(0, this.currentPower + fluctuation);
       this.dailyCost = this.calculateCost(this.currentPower);
       this.saveToService();
     }, 5000);
+  }
+
+  ngOnDestroy() {
+    if (this.energySubscription) {
+      this.energySubscription.unsubscribe();
+    }
+
+    if (this.dataInterval) {
+      clearInterval(this.dataInterval);
+    }
   }
 }

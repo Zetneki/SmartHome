@@ -1,0 +1,75 @@
+<div class="all-stat">
+  <div class="stats">
+    <div class="left-stat">
+      <h1 class="stat-title">Created Users</h1>
+      <div *ngIf="loadingCreatedAt" class="loading">
+        <h1>Loading user data...</h1>
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+      <div *ngIf="!loadingCreatedAt" class="stat-description">
+        <div *ngIf="usersCreatedAt.length === 0">
+          <p>No data found.</p>
+        </div>
+
+        <div *ngFor="let user of usersCreatedAt" class="user-createdat-item">
+          <h3>
+            {{ user.name }} <span class="email-text">({{ user.email }})</span>
+          </h3>
+          <div class="user-types">
+            <span *ngIf="user.createdAt" class="user-badge">
+              {{ user.createdAt | createdAtDate }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right-stat">
+      <h1 class="stat-title">Number of Widgets</h1>
+      <div *ngIf="loadingContent" class="loading">
+        <h1>Loading user data...</h1>
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+      <div *ngIf="!loadingContent" class="stat-description">
+        <div *ngIf="usersCreatedAt.length === 0">
+          <p>No data found.</p>
+        </div>
+        <div
+          *ngFor="let widget of widgetContent | keyvalue"
+          class="widget-content"
+        >
+          <h3 class="stat-items-left">{{ widget.key }}</h3>
+          <h3 class="stat-items-right">{{ widget.value }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat">
+    <h1 class="stat-title">User Widget Statistics</h1>
+
+    <div *ngIf="loadingWidgets" class="loading">
+      <h1>Loading user data...</h1>
+      <mat-spinner diameter="30"></mat-spinner>
+    </div>
+
+    <div *ngIf="!loadingWidgets" class="stat-description">
+      <div *ngIf="userWidgets.length === 0">
+        <p>No data found.</p>
+      </div>
+
+      <div *ngFor="let user of userWidgets" class="user-widget-item">
+        <h3>
+          {{ user.name }} <span class="email-text">({{ user.email }})</span>
+        </h3>
+        <div class="widget-types">
+          <span *ngIf="user.widgetTypes.length === 0" class="no-widgets"
+            >No widgets</span
+          >
+          <span *ngFor="let type of user.widgetTypes" class="widget-badge">
+            {{ type }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

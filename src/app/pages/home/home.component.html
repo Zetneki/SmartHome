@@ -1,5 +1,21 @@
 <div class="home">
-  @if (userService.currentUserSubject.value) {
+  @if (userService.currentUserSubject.value === undefined) {
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+  } @else if (userService.currentUserSubject.value?.role === 'admin') {
+  <div class="admin">
+    <h2>Welcome to SmartHome</h2>
+    <div>
+      <p>View user's statistics.</p>
+    </div>
+    <div class="button-group">
+      <button mat-raised-button type="button" [routerLink]="['/admin']">
+        Admin
+      </button>
+    </div>
+  </div>
+  } @else if (userService.currentUserSubject.value) {
   <div class="add">
     <h2>Widgets</h2>
 
@@ -37,6 +53,7 @@
       </button>
     </div>
   </div>
+
   } @if ((rooms$ | async)?.length === 0) {
   <div class="empty-not-selected">
     <p>You have no rooms</p>

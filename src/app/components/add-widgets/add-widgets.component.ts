@@ -43,7 +43,7 @@ export class AddWidgetsComponent {
   roomService = inject(RoomService);
   authService = inject(AuthService);
 
-  selectedRoomId: number = 0;
+  selectedRoomId: string = '';
 
   rooms = this.roomService.roomsSubject;
   currentUser$ = this.authService.currentUser$;
@@ -84,15 +84,24 @@ export class AddWidgetsComponent {
 
   dashboard = viewChild.required<ElementRef>('dashboard');
 
-  id_value = Date.now();
+  id_value = Date.now().toString();
 
   widgets = [
-    { value: LightComponent, viewValue: 'Light' },
-    { value: TemperatureComponent, viewValue: 'Temperature' },
-    { value: SecurityCameraComponent, viewValue: 'Security Camera' },
-    { value: EnergyComponent, viewValue: 'Energy' },
-    { value: RollerShutterComponent, viewValue: 'Roller Shutter' },
-    { value: LockComponent, viewValue: 'Lock' },
+    { value: LightComponent, viewValue: ['Light', 'LightComponent'] },
+    {
+      value: TemperatureComponent,
+      viewValue: ['Temperature', 'TemperatureComponent'],
+    },
+    {
+      value: SecurityCameraComponent,
+      viewValue: ['Security Camera', 'SecurityCameraComponent'],
+    },
+    { value: EnergyComponent, viewValue: ['Energy', 'EnergyComponent'] },
+    {
+      value: RollerShutterComponent,
+      viewValue: ['Roller Shutter', 'RollerShutterComponent'],
+    },
+    { value: LockComponent, viewValue: ['Lock', 'LockComponent'] },
   ];
 
   getControl(controlName: string) {
@@ -110,54 +119,69 @@ export class AddWidgetsComponent {
   widgetContent = [
     {
       value: LightComponent,
-      defaultContent: (id: number) => ({
+      defaultContent: (id: string) => ({
         widgetId: id,
-        text: 'Brightness',
         switch: false,
+        percentage: 0,
       }),
     },
     {
       value: TemperatureComponent,
-      defaultContent: (id: number) => ({
+      defaultContent: (id: string) => ({
         widgetId: id,
         numberValue: 20,
       }),
     },
     {
       value: SecurityCameraComponent,
-      defaultContent: (id: number) => ({
+      defaultContent: (id: string) => ({
+        widgetId: id,
+        switch: false,
+      }),
+    },
+    {
+      value: EnergyComponent,
+      defaultContent: (id: string) => ({
+        widgetId: id,
+        numberValue: 20,
+        text: '0',
+      }),
+    },
+    {
+      value: RollerShutterComponent,
+      defaultContent: (id: string) => ({
+        widgetId: id,
+        percentage: 0,
+      }),
+    },
+    {
+      value: LockComponent,
+      defaultContent: (id: string) => ({
         widgetId: id,
         switch: false,
       }),
     },
   ];
 
-  getDefaultWidgetConfig() {
-    return {
-      value: LightComponent,
-      defaultContent: (id: number) => ({
-        widgetId: id,
-        text: 'Brightness',
-        switch: false,
-      }),
-    };
-  }
-
   newWidget() {
     if (this.widgetForm.valid) {
-      this.id_value = Date.now();
       const formValue = this.widgetForm.value;
+      const tempId = 'temp-' + Date.now().toString();
 
-      const widgetConfig =
-        this.widgetContent.find((w) => w.value === formValue.value) ||
-        this.getDefaultWidgetConfig();
+      const widgetContent = this.widgets.find(
+        (w) => w.value === formValue.widgetType
+      );
+
+      const widgetConfig = this.widgetContent.find(
+        (w) => w.value === formValue.widgetType
+      );
 
       const currentWidget: Widget = {
-        id: this.id_value,
+        id: tempId,
         roomId: this.selectedRoomId,
         label: formValue.name,
-        content: formValue.widgetType,
-        contentData: widgetConfig.defaultContent(this.id_value),
+        content: widgetContent!.viewValue[1],
+        contentData: widgetConfig!.defaultContent(tempId),
         rows: 1,
         columns: 1,
         backgroundColor: 'var(--mat-sys-primary)',

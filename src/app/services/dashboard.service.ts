@@ -1,22 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Widget } from '../models/widget';
+import { deleteDoc, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
+  constructor(private firestore: Firestore) {}
+
   // Widget logika (pl. mozgatás, méretezés)
-  updateWidget(widgets: Widget[], id: number, widget: Partial<Widget>) {
+  async updateWidget(widgets: Widget[], id: string, widget: Partial<Widget>) {
     const index = widgets.findIndex((w) => w.id === id);
-    if (index !== -1) {
-      const newWidgets = [...widgets];
-      newWidgets[index] = { ...newWidgets[index], ...widget };
-      return newWidgets;
+    if (index === -1) return widgets;
+
+    const originalWidgets = [...widgets];
+
+    widgets[index] = { ...widgets[index], ...widget };
+
+    try {
+      await updateDoc(doc(this.firestore, 'Widget', id), widget);
+      return widgets;
+    } catch (error) {
+      console.error('Update failed, rolling back:', error);
+      return originalWidgets;
     }
-    return widgets;
   }
 
-  moveWidgetToRight(widgets: Widget[], id: number): Widget[] {
+  async moveWidgetToRight(widgets: Widget[], id: string): Promise<Widget[]> {
     if (!widgets || !id) {
       console.warn('Invalid input for moveWidgetToRight');
       return widgets;
@@ -30,7 +40,6 @@ export class DashboardService {
     }
 
     if (index === widgets.length - 1) {
-      console.warn('Widget is already at the end');
       return widgets;
     }
 
@@ -41,10 +50,22 @@ export class DashboardService {
       { ...newWidgets[index] },
     ];
 
+    try {
+      await updateDoc(doc(this.firestore, 'Widget', newWidgets[index].id), {
+        orderIndex: index,
+      });
+      await updateDoc(doc(this.firestore, 'Widget', newWidgets[index + 1].id), {
+        orderIndex: index + 1,
+      });
+    } catch (error) {
+      console.error('Error updating widget positionin database:', error);
+      throw error;
+    }
+
     return newWidgets;
   }
 
-  moveWidgetToLeft(widgets: Widget[], id: number): Widget[] {
+  async moveWidgetToLeft(widgets: Widget[], id: string): Promise<Widget[]> {
     const index = widgets.findIndex((w) => w.id === id);
     if (index === 0) {
       return widgets;
@@ -55,11 +76,30 @@ export class DashboardService {
       { ...newWidgets[index] },
     ];
 
+    try {
+      await updateDoc(doc(this.firestore, 'Widget', newWidgets[index].id), {
+        orderIndex: index,
+      });
+      await updateDoc(doc(this.firestore, 'Widget', newWidgets[index - 1].id), {
+        orderIndex: index - 1,
+      });
+    } catch (error) {
+      console.error('Error updating widget positionin database:', error);
+      throw error;
+    }
+
     return newWidgets;
   }
 
-  deleteWidget(widgets: Widget[], id: number) {
-    console.log('lefutott a delete');
-    return widgets.filter((w) => w.id !== id);
+  async deleteWidget(widgets: Widget[], id: string) {
+    try {
+      const widgetRef = doc(this.firestore, 'Widget', id);
+      await deleteDoc(widgetRef);
+      console.log('lefutott a delete');
+      return widgets.filter((w) => w.id !== id);
+    } catch (error) {
+      console.error('Error deleting widget from Firestore:', error);
+      throw error;
+    }
   }
 }

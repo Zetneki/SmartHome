@@ -1,6 +1,5 @@
 .nav {
   background-color: var(--mat-sys-primary);
-
   .nav-links {
     width: 100%;
     height: 100%;
@@ -37,84 +36,107 @@
       }
     }
 
-    @media screen and (min-width: 53.125rem) {
-      .sidebar-container,
-      .sidebar,
-      .sidebar-content {
-        display: none;
+    &:not(.admin-user) {
+      @media screen and (min-width: 53.125rem) {
+        // 850px
+        .sidebar-container,
+        .sidebar,
+        .sidebar-content {
+          display: none;
+        }
+      }
+
+      @media screen and (max-width: 53.063rem) {
+        // 849px
+        .light-dark-switch,
+        .nav-link {
+          display: none;
+        }
       }
     }
 
-    @media screen and (max-width: 53.063rem) {
-      .light-dark-switch,
-      .nav-link {
-        display: none;
+    &.admin-user {
+      @media screen and (min-width: 1030px) {
+        // 900px
+        .sidebar-container,
+        .sidebar,
+        .sidebar-content {
+          display: none;
+        }
       }
 
-      .sidebar-container {
-        background-color: var(--mat-sys-primary);
-        height: 100%;
+      @media screen and (max-width: 1029px) {
+        // 899px
+        .light-dark-switch,
+        .nav-link {
+          display: none;
+        }
       }
+    }
 
-      .sidebar {
-        width: 50vw; // Az egész képernyő szélességét lefedi
-        height: 100vh; // Az egész képernyő magasságát lefedi
-        position: fixed; // Rögzített, így az oldal görgetésekor nem mozdul el
-        top: 0;
-        left: 0;
-        background: rgba(0, 0, 0, 0.8); // Átlátszó fekete háttér (módosítható)
-        color: white;
-        z-index: 100000; // Magasabb, mint a többi elem, így biztosan fölé kerül
+    .sidebar-container {
+      background-color: var(--mat-sys-primary);
+      height: 100%;
+    }
+
+    .sidebar {
+      width: 50vw; // Az egész képernyő szélességét lefedi
+      height: 100vh; // Az egész képernyő magasságát lefedi
+      position: fixed; // Rögzített, így az oldal görgetésekor nem mozdul el
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8); // Átlátszó fekete háttér (módosítható)
+      color: white;
+      z-index: 100000; // Magasabb, mint a többi elem, így biztosan fölé kerül
+      display: flex;
+      flex-direction: column;
+      border-radius: 0;
+
+      .sidebar-close {
         display: flex;
-        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 1rem;
         border-radius: 0;
 
-        .sidebar-close {
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          padding: 1rem;
-          border-radius: 0;
-
-          .close {
-            background-color: rgb(51, 51, 51);
-            margin-left: 1rem;
-            mat-icon {
-              margin: 0;
-              color: white;
-            }
+        .close {
+          background-color: rgb(51, 51, 51);
+          margin-left: 1rem;
+          mat-icon {
+            margin: 0;
+            color: white;
           }
         }
-
-        a {
-          width: 100%; // **A teljes sidebar szélességét elfoglalja**
-          text-align: left; // **Balra igazítja a szöveget**
-          color: white;
-          text-decoration: none;
-          border-radius: 0;
-          display: block; // **Teljes szélességben megjelenik**
-          padding-top: 1rem;
-          padding-bottom: 2.5rem;
-        }
       }
 
-      .sidebar-content {
-        height: 100%;
-        display: flex;
-        justify-content: center;
+      a {
+        width: 100%; // **A teljes sidebar szélességét elfoglalja**
+        text-align: left; // **Balra igazítja a szöveget**
+        color: white;
+        text-decoration: none;
         border-radius: 0;
+        display: block; // **Teljes szélességben megjelenik**
+        padding-top: 1rem;
+        padding-bottom: 2.5rem;
+      }
+    }
 
-        mat-icon {
-          margin: 0;
-          color: white;
-        }
-        &::after {
-          border: none;
-        }
-        &:hover {
-          transition: 0.3s ease-in-out;
-          background-color: var(--mat-sys-inverse-primary);
-        }
+    .sidebar-content {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      border-radius: 0;
+
+      mat-icon {
+        margin: 0;
+        color: white;
+      }
+      &::after {
+        border: none;
+      }
+      &:hover {
+        transition: 0.3s ease-in-out;
+        background-color: var(--mat-sys-inverse-primary);
       }
     }
   }

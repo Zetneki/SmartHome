@@ -13,7 +13,7 @@
     <mat-label>Widget type</mat-label>
     <mat-select formControlName="widgetType">
       @for (widget of widgets; track widget) {
-      <mat-option [value]="widget.value">{{ widget.viewValue }}</mat-option>
+      <mat-option [value]="widget.value">{{ widget.viewValue[0] }}</mat-option>
       }
     </mat-select>
     @if (getControl('widgetType')?.hasError('required')) {

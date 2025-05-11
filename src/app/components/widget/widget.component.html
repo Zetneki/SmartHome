@@ -13,17 +13,17 @@
     <mat-icon>settings</mat-icon>
   </button>
 
-  @switch (data().content) { @case (LightComponent) {
+  @switch (data().content) { @case ("LightComponent") {
   <app-light [id]="data().id"></app-light>
-  } @case (TemperatureComponent) {
+  } @case ("TemperatureComponent") {
   <app-temperature [id]="data().id"></app-temperature>
-  } @case (SecurityCameraComponent) {
+  } @case ("SecurityCameraComponent") {
   <app-security-camera [id]="data().id"></app-security-camera>
-  } @case (EnergyComponent) {
+  } @case ("EnergyComponent") {
   <app-energy [id]="data().id"></app-energy>
-  } @case (RollerShutterComponent) {
+  } @case ("RollerShutterComponent") {
   <app-roller-shutter [id]="data().id"></app-roller-shutter>
-  } @case (LockComponent) {
+  } @case ("LockComponent") {
   <app-lock [id]="data().id"></app-lock>
   } @default {
   <app-light [id]="data().id"></app-light>

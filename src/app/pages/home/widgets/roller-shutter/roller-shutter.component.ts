@@ -1,7 +1,8 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { RoomService } from '../../../../services/room.service';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-roller-shutter',
@@ -9,18 +10,21 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './roller-shutter.component.html',
   styleUrl: './roller-shutter.component.scss',
 })
-export class RollerShutterComponent {
+export class RollerShutterComponent implements OnInit, OnDestroy {
   roomService = inject(RoomService);
-  @Input() id!: number;
+  @Input() id!: string;
 
   sliderValue = 0;
+  private rollerShutterSubscription!: Subscription;
 
   ngOnInit() {
     this.updateState();
 
-    this.roomService.currentRoom$.subscribe(() => {
-      this.updateState();
-    });
+    this.rollerShutterSubscription = this.roomService.currentRoom$.subscribe(
+      () => {
+        this.updateState();
+      }
+    );
   }
 
   private updateState() {
@@ -54,5 +58,11 @@ export class RollerShutterComponent {
         percentage: this.sliderValue,
       },
     });
+  }
+
+  ngOnDestroy() {
+    if (this.rollerShutterSubscription) {
+      this.rollerShutterSubscription.unsubscribe();
+    }
   }
 }

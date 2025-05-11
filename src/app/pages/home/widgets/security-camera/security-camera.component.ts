@@ -1,6 +1,7 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RoomService } from '../../../../services/room.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-security-camera',
@@ -8,18 +9,21 @@ import { RoomService } from '../../../../services/room.service';
   templateUrl: './security-camera.component.html',
   styleUrl: './security-camera.component.scss',
 })
-export class SecurityCameraComponent {
+export class SecurityCameraComponent implements OnInit, OnDestroy {
   roomService = inject(RoomService);
-  @Input() id!: number;
+  @Input() id!: string;
 
   isOn = false;
+  private securityCameraSubscription!: Subscription;
 
   ngOnInit() {
     this.updateState();
 
-    this.roomService.currentRoom$.subscribe(() => {
-      this.updateState();
-    });
+    this.securityCameraSubscription = this.roomService.currentRoom$.subscribe(
+      () => {
+        this.updateState();
+      }
+    );
   }
 
   private updateState() {
@@ -46,5 +50,11 @@ export class SecurityCameraComponent {
     });
 
     this.isOn = newState;
+  }
+
+  ngOnDestroy() {
+    if (this.securityCameraSubscription) {
+      this.securityCameraSubscription.unsubscribe();
+    }
   }
 }

@@ -1,10 +1,13 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIcon } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { map, Observable, Subscription } from 'rxjs';
+import { AppUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -15,15 +18,26 @@ import { NgIf } from '@angular/common';
     MatSidenavModule,
     MatIcon,
     NgIf,
+    AsyncPipe,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   isOpen = false;
   isDarkMode = false;
+  currentUser$: Observable<AppUser | null | undefined>;
+  isAdmin = false;
+  private userSubscription!: Subscription;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, public authService: AuthService) {
+    this.currentUser$ = authService.currentUser$;
+
+    this.userSubscription = this.currentUser$.subscribe((user) => {
+      this.isAdmin = user?.role === 'admin';
+      //console.log('Is admin:', this.isAdmin);
+    });
+  }
 
   toggleSidebar() {
     this.isOpen = !this.isOpen;
@@ -47,5 +61,11 @@ export class HeaderComponent implements OnInit {
     this.renderer.setAttribute(document.documentElement, 'data-theme', theme);
 
     localStorage.setItem('theme', theme);
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 }

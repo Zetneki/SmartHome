@@ -1,7 +1,8 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RoomService } from '../../../../services/room.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lock',
@@ -9,15 +10,18 @@ import { RoomService } from '../../../../services/room.service';
   templateUrl: './lock.component.html',
   styleUrl: './lock.component.scss',
 })
-export class LockComponent {
+export class LockComponent implements OnInit, OnDestroy {
   roomService = inject(RoomService);
-  @Input() id!: number;
+  @Input() id!: string;
 
   isLocked = false;
+  private lockSubscription!: Subscription;
 
   ngOnInit() {
     this.updateState();
-    this.roomService.currentRoom$.subscribe(() => this.updateState());
+    this.lockSubscription = this.roomService.currentRoom$.subscribe(() =>
+      this.updateState()
+    );
   }
 
   updateState() {
@@ -48,5 +52,11 @@ export class LockComponent {
 
   get icon(): string {
     return this.isLocked ? 'lock' : 'lock_open';
+  }
+
+  ngOnDestroy() {
+    if (this.lockSubscription) {
+      this.lockSubscription.unsubscribe();
+    }
   }
 }

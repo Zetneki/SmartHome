@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 import { WidgetContent } from './widget-content';
 
 export interface Widget {
-  id: number;
-  roomId: number;
+  id: string;
+  roomId: string;
   label: string;
-  content: Type<unknown>;
+  content: string;
   contentData: WidgetContent;
   rows: number;
   columns: number;

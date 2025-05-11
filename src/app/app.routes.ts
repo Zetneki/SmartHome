@@ -13,18 +13,25 @@ export const routes: Routes = [
       import('./pages/about/about.component').then((m) => m.AboutComponent),
   },
   {
+    path: 'admin',
+    loadComponent: () =>
+      import('./pages/admin/admin.component').then((m) => m.AdminComponent),
+    canActivate: [authGuard],
+    data: { admin: true },
+  },
+  {
     path: 'profile',
     loadComponent: () =>
       import('./pages/profile/profile.component').then(
         (m) => m.ProfileComponent
       ),
-    //canActivate: [authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'login',
     loadComponent: () =>
       import('./pages/login/login.component').then((m) => m.LoginComponent),
-    //canActivate: [publicGuard],
+    canActivate: [publicGuard],
   },
   {
     path: 'registration',
@@ -32,7 +39,7 @@ export const routes: Routes = [
       import('./pages/registration/registration.component').then(
         (m) => m.RegistrationComponent
       ),
-    //canActivate: [publicGuard],
+    canActivate: [publicGuard],
   },
   {
     path: '',

@@ -1,7 +1,8 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { RoomService } from '../../../../services/room.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-light',
@@ -10,16 +11,19 @@ import { RoomService } from '../../../../services/room.service';
   templateUrl: './light.component.html',
   styleUrls: ['./light.component.scss'],
 })
-export class LightComponent implements OnInit {
+export class LightComponent implements OnInit, OnDestroy {
   roomService = inject(RoomService);
-  @Input() id!: number;
+  @Input() id!: string;
 
   isOn = false;
   brightness = 0;
+  private lightSubscription!: Subscription;
 
   ngOnInit() {
     this.updateState();
-    this.roomService.currentRoom$.subscribe(() => this.updateState());
+    this.lightSubscription = this.roomService.currentRoom$.subscribe(() =>
+      this.updateState()
+    );
   }
 
   private updateState() {
@@ -64,5 +68,11 @@ export class LightComponent implements OnInit {
     if (this.brightness < 70) return 'Medium';
     if (this.brightness < 100) return 'High';
     return 'On';
+  }
+
+  ngOnDestroy() {
+    if (this.lightSubscription) {
+      this.lightSubscription.unsubscribe();
+    }
   }
 }
