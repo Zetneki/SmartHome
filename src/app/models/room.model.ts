@@ -4,5 +4,5 @@ export interface Room {
   id: string;
   userId: string;
   name: string;
-  devices: Widget[]; // Az eszközök azonosítói
+  devices: Widget[];
 }

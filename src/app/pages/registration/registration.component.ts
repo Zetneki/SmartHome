@@ -82,7 +82,6 @@ export class RegistrationComponent {
     this.authService
       .signUp(emailValue, passwordValue, nameValue)
       .then((userCredential) => {
-        console.log('Registration successful:', userCredential.user);
         this.router.navigateByUrl('/home');
       })
       .catch((error) => {

@@ -71,8 +71,6 @@ export class LoginComponent {
     this.authService
       .signIn(emailValue, passwordValue)
       .then((userCredential) => {
-        console.log('asdasdasd', this.authService.currentUserSubject.value);
-        console.log('Login successful:', userCredential.user);
         this.router.navigateByUrl('/home');
       })
       .catch((error) => {

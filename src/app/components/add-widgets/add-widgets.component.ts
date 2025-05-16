@@ -69,7 +69,6 @@ export class AddWidgetsComponent {
               room.name.toLowerCase().includes((value || '').toLowerCase())
             );
 
-            // Automatikus választás csak ha nem volt kézi választás
             if (filtered.length === 1 && !this.manualSelection) {
               this.selectedRoomId = filtered[0].id;
             }

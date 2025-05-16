@@ -87,11 +87,9 @@ export class RoomService {
     this.roomsSubject.next(user?.rooms ?? []);
   }
 
-  // Új szoba hozzáadása
   async addRoom(room: Room) {
     const user = this.authService.currentUserSubject.value;
     if (!user) {
-      console.log('nincs bejelentkezett felhasznalo');
       return;
     }
 
@@ -126,9 +124,7 @@ export class RoomService {
     }
   }
 
-  // Widget hozzáadása egy szobához
   async addWidgetToRoom(currentRoom: Room, widget: Widget) {
-    console.log('fut a bro');
     if (this.currentRoom.value?.devices) {
       for (const device of this.currentRoom.value?.devices) {
         if (
@@ -138,14 +134,13 @@ export class RoomService {
           this.widgetErrorSubject.next(
             `'${widget.label}' already exists in this room`
           );
-          console.log('ilyen widget mar van');
+
           return;
         }
       }
     }
     const user = this.authService.currentUserSubject.value;
     if (!user) {
-      console.log('nincs bejelentkezett felhasznalo');
       return;
     }
 
@@ -186,8 +181,6 @@ export class RoomService {
         room.devices.push(newWidget);
         this.authService.updateUser(user);
         this.roomsSubject.next(user.rooms);
-
-        console.log('sikeres widget hozzaadas');
       }
     } catch (error) {
       console.error('Hiba a widget hozzáadása közben:', error);
@@ -248,7 +241,6 @@ export class RoomService {
   }
 
   async removeWidgetFromRoom(roomId: string, widgetId: string) {
-    console.log('belepett a removeba');
     const user = this.authService.currentUserSubject.value;
     if (user) {
       const room = user.rooms.find((r) => r.id === roomId);
@@ -259,7 +251,6 @@ export class RoomService {
         );
         if (room.devices.length === 0) {
           try {
-            console.log('lefutott');
             const roomRef = doc(this.firestore, 'Room', roomId);
             await deleteDoc(roomRef);
             const userRef = doc(this.firestore, 'AppUser', user.id);
@@ -273,7 +264,7 @@ export class RoomService {
             throw error;
           }
         }
-        console.log('lefutott a remove');
+
         this.authService.updateUser(user);
         this.roomsSubject.next(user.rooms);
       }

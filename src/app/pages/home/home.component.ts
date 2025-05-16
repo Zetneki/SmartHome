@@ -61,8 +61,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     wrapGrid(this.dashboard().nativeElement, { duration: 300 });
 
-    //console.log(this.rooms$.subscribe((r) => console.log(r)));
-
     this.roomService.loadSelectedRoom();
   }
 
@@ -83,12 +81,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (appRoot) {
         appRoot.setAttribute('inert', '');
       }
-      console.log(appRoot);
     });
     this.dialogSubscriptions.push(afterOpenedSub);
 
     const afterClosedSub = dialogRef.afterClosed().subscribe(async (result) => {
-      console.log('The dialog was closed');
       if (appRoot) {
         appRoot.removeAttribute('inert');
       }

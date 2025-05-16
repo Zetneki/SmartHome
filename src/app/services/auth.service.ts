@@ -72,7 +72,6 @@ export class AuthService {
 
   async loadUserData(firebaseUser: User): Promise<void> {
     try {
-      // 1. Felhasználó alapadatok betöltése
       const userRef = doc(this.userCollection, firebaseUser.uid);
       const userSnap = await getDoc(userRef);
 
@@ -83,14 +82,12 @@ export class AuthService {
 
       const userData = userSnap.data();
 
-      // 2. Szobák betöltése
       const roomIds: string[] = Array.isArray(userData['rooms'])
         ? userData['rooms']
         : [];
 
       const rooms: Room[] = [];
 
-      // Párhuzamosan töltjük be a szobákat
       const roomPromises = roomIds.map(async (roomId) => {
         try {
           const roomRef = doc(this.roomCollection, roomId);
@@ -101,7 +98,6 @@ export class AuthService {
 
           if (roomData['userId'] !== firebaseUser.uid) return null;
 
-          // 3. Widgetek betöltése
           const deviceIds: string[] = Array.isArray(roomData['devices'])
             ? roomData['devices']
             : [];
@@ -144,7 +140,6 @@ export class AuthService {
         (room) => room !== null
       ) as Room[];
 
-      // 4. Felhasználó objektum összeállítása
       const appUser: AppUser = {
         id: firebaseUser.uid,
         email: firebaseUser.email || userData['email'] || '',
@@ -167,8 +162,6 @@ export class AuthService {
   ): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password)
       .then(async (cred) => {
-        console.log('Registration successful:', cred.user);
-
         await updateProfile(cred.user, { displayName: name });
         await cred.user.reload();
 
@@ -209,11 +202,9 @@ export class AuthService {
   }
 
   logout(): Promise<void> {
-    console.log('asdasdasd', this.currentUserSubject.value);
     return signOut(this.auth).then(() => {
       this.router.navigateByUrl('/home');
       this.currentUserSubject.next(null);
-      console.log('asdasdasd', this.currentUserSubject.value);
     });
   }
 

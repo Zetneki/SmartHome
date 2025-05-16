@@ -55,8 +55,7 @@ export class WidgetComponent implements OnInit {
   LockComponent = LockComponent;
 
   ngOnInit() {
-    console.log('Window width:', window.innerWidth);
-    this.checkScreenSize(); // Induláskor ellenőrizzük a méretet
+    this.checkScreenSize();
   }
 
   @HostListener('window:resize', ['$event'])

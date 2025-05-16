@@ -8,7 +8,6 @@ import { deleteDoc, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 export class DashboardService {
   constructor(private firestore: Firestore) {}
 
-  // Widget logika (pl. mozgatás, méretezés)
   async updateWidget(widgets: Widget[], id: string, widget: Partial<Widget>) {
     const index = widgets.findIndex((w) => w.id === id);
     if (index === -1) return widgets;
@@ -32,7 +31,7 @@ export class DashboardService {
       return widgets;
     }
 
-    const index = widgets.findIndex((w) => w?.id === id); // Null check hozzáadva
+    const index = widgets.findIndex((w) => w?.id === id);
 
     if (index === -1) {
       console.warn(`Widget with id ${id} not found`);
@@ -43,7 +42,6 @@ export class DashboardService {
       return widgets;
     }
 
-    // Mély másolat készítése
     const newWidgets = [...widgets];
     [newWidgets[index], newWidgets[index + 1]] = [
       { ...newWidgets[index + 1] },
@@ -95,7 +93,6 @@ export class DashboardService {
     try {
       const widgetRef = doc(this.firestore, 'Widget', id);
       await deleteDoc(widgetRef);
-      console.log('lefutott a delete');
       return widgets.filter((w) => w.id !== id);
     } catch (error) {
       console.error('Error deleting widget from Firestore:', error);

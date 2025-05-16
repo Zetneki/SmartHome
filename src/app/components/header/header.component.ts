@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userSubscription = this.currentUser$.subscribe((user) => {
       this.isAdmin = user?.role === 'admin';
-      //console.log('Is admin:', this.isAdmin);
     });
   }
 

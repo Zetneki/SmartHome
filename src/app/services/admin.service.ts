@@ -39,18 +39,13 @@ export class AdminService {
         const userData = userDoc.data() as AppUser;
 
         const roomsCollection = collection(this.firestore, 'Room');
-        // Create a query with composite index
+
         const roomsQuery = query(
           roomsCollection,
           where('userId', '==', userData.id),
           orderBy('name'),
           limit(100)
         );
-
-        // This query requires a composite index in Firestore
-        // You'll need to create an index on 'Room' collection with fields:
-        // - userId (ascending)
-        // - name (ascending)
 
         const roomsSnapshot = await getDocs(roomsQuery);
 
@@ -60,7 +55,6 @@ export class AdminService {
           const roomData = roomDoc.data() as Room;
 
           if (roomData.devices && Array.isArray(roomData.devices)) {
-            // Safely handle widgets - improved type checking
             for (const widgetId of roomData.devices) {
               if (typeof widgetId === 'string') {
                 try {
