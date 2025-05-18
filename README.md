@@ -9,3 +9,7 @@ admin fiók:
 
 - email: noidont@gmail.com
 - jelszó: 123123123
+
+oldal link:
+
+- smarthome-c8706.web.app
